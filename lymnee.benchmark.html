@@ -1,0 +1,67 @@
+<!doctype html>
+<!--
+    https://gomakethings.com/how-performant-are-data-attributes-as-selectors/
+    https://gist.github.com/cferdinandi/0d52bd0f4416bfe6a99108bd5c173e38
+-->
+<html lang="fr">
+<head>
+	<title>Test de performance des attributs de données</title>
+</head>
+<body>
+
+	<ul id="app"></ul>
+
+	<script>
+		// Variables
+		var app = document.querySelector('#app');
+		var count = 10000;
+		var elem;
+
+		// Create elements
+		for (var i = 0; i < count; i++) {
+
+			// Create element
+			elem = document.createElement('li');
+			elem.textContent = 'List Item ' + i;
+
+			// Add ID, class, and data attribute
+			elem.id = 'list-item-' + i;
+			elem.className = 'list-item';
+			elem.setAttribute('data-item', i);
+
+			// Inject into the DOM
+			app.appendChild(elem);
+
+		}
+
+
+		/**
+		 * Start Performance Tests
+		 */
+
+		var start, end;
+
+
+		//
+		// By Class
+		//
+
+		start = performance.now();
+		var byClass = document.querySelectorAll('.list-item');
+		end = performance.now();
+		console.log('Par classes prend ' + (end - start) + 'milliseconde.s.');
+
+
+		//
+		// By Data Attribute
+		//
+
+		start = performance.now();
+		var byClass = document.querySelectorAll('[data-item]');
+		end = performance.now();
+		console.log('Par attributs de données prend ' + (end - start) + 'milliseconde.s.');
+
+	</script>
+
+</body>
+</html>
