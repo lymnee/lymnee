@@ -1,4 +1,4 @@
-# lymnee-css
+# lymnee
 
 > Attributs de données avec… classe.
 
