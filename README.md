@@ -2,8 +2,7 @@
 
 > Attributs de données avec… classe.
 
-> [Lymnee](https://github.com/lymnee/lymnee) recourt aux attributs de données pour styler un contenu Web : grâce à cette méthode, le code <abbr title="Cascading Styles Sheets">Css</abbr> devient facile à concevoir et à maintenir. [Lymnee](https://github.com/lymnee/lymnee) s’accompagne de trois outils pour générer ces styles.
-
+> [Lymnee](https://github.com/lymnee/lymnee) recourt aux attributs de données pour styler un contenu Web : grâce à cette [méthode](https://github.com/lymnee/lymnee.github.io), le code <abbr title="Cascading Styles Sheets">Css</abbr> devient facile à concevoir et à maintenir. [Lymnee](https://github.com/lymnee/lymnee) s’accompagne de trois outils pour générer ces styles.
 
 > Css, Html, JavaScript, Node.js, Php, XPath
 
