@@ -190,12 +190,23 @@ const args = process.argv
 
 );
 
+var path = process.cwd();
 
-var cssFile = 'lymnee.css';
+if (args.path) {
+
+    if (args.path !== 'current') {
+
+        path = args.path;
+
+    }
+
+}
+
+var cssFile = path + '/lymnee.css';
 
 if (args.cssFile) {
 
-    cssFile = args.prefixDataAttributes;
+    cssFile = path + '/' + args.cssFile;
 
     cssFile += '.css';
 
@@ -216,18 +227,6 @@ var uncompress = true;
 if (args.uncompress === 'false') {
 
     uncompress = false;
-
-}
-
-var path = process.cwd();
-
-if (args.path) {
-
-    if (args.path !== 'current') {
-
-        path = args.path;
-
-    }
 
 }
 
@@ -299,17 +298,17 @@ if (args.includeExtensions) {
 
     if (args.includeExtensions.includes(',')) {
 
-        files = glob.sync('**/*.{' + args.includeExtensions + '}', options);
+        files = glob.sync(path + '**/*.{' + args.includeExtensions + '}', options);
 
     } else {
 
-        files = glob.sync('**/*.' + args.includeExtensions, options);
+        files = glob.sync(path + '**/*.' + args.includeExtensions, options);
     
     }
 
 } else {
 
-    files = glob.sync('**/*.html', options);
+    files = glob.sync(path + '**/*.html', options);
 
 }
 
