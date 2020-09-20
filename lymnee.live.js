@@ -1,3 +1,15 @@
+var cssAfter;
+
+var cssBefore;
+
+/*cssAfter = `
+Your Css after
+`;*/
+
+/*cssBefore = `
+Your Css before
+`;*/
+
 /*
  * To customize
 */
@@ -449,9 +461,21 @@ styles.forEach(function (style) {
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
-    var style = document.createElement('style');
+	var style = document.createElement('style');
+	
+	if (!!cssBefore) {
 
-    style.innerHTML = cssOutput;
+		style.innerHTML += cssBefore;
+
+	}
+
+	style.innerHTML += cssOutput;
+	
+	if (!!cssAfter) {
+
+		style.innerHTML += cssAfter;
+
+	}
 
     var head = document.getElementsByTagName('head')[0];
 
