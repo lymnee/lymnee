@@ -1,6 +1,14 @@
-var cssAfter;
+if (typeof cssAfter === 'undefined') {
 
-var cssBefore;
+    var cssAfter;
+    
+}
+
+if (typeof cssBefore === 'undefined') {
+
+    var cssBefore;
+    
+}
 
 /*cssAfter = `
 Your Css after
@@ -14,9 +22,17 @@ Your Css before
  * To customize
 */
 
-var prefixDataAttributes = 'data-ym-';
+if (typeof prefixDataAttributes === 'undefined') {
 
-var reset = 'all';
+    var prefixDataAttributes = 'data-ym-';
+
+}
+
+if (typeof reset === 'undefined') {
+
+    var reset = 'all';
+
+}
 
 function removeDuplicateEntries(arrayNodes) {
 
@@ -302,12 +318,11 @@ nodesYmNamesAndValues.forEach(function (nodeYmNameAndValue) {
 
         style.value = rulePseudoElement[0].trim();
 
-		style.selector = nodeYmNameAndValue[0] + '=' + '"' + nodeYmNameAndValue[1] + '"';
+        style.selector = nodeYmNameAndValue[0] + '=' + '"' + nodeYmNameAndValue[1] + '"';
 
-		style.property = nodeYmNameAndValue[0];
+        style.property = nodeYmNameAndValue[0];
 
-		styles.push(style);
-
+        styles.push(style);
 
     });
 
@@ -323,49 +338,15 @@ if (nodesYmReset.length) {
 
             cssOutput += ',';
 
-            if (uncompress) {
-
-                cssOutput += '\n';
-
-            }
-
-        } else {
-
-            /* Last element */
-
-            if (uncompress) {
-
-                cssOutput += ' ';
-
-            }
         }
 
     });
 
     cssOutput += '{';
-
-    if (uncompress) {
-
-        cssOutput += '\n';
-
-        cssOutput += '\t';
-
-        cssOutput += 'all: unset';
-
-        cssOutput += '\n';
-
-    } else {
-
-        cssOutput += 'all:unset';
-    }
+	
+	cssOutput += 'all:unset';
     
     cssOutput += '}';
-    
-    if (uncompress) {
-
-        cssOutput += '\n';
-
-    }
 
 }
 
@@ -376,12 +357,6 @@ styles.forEach(function (style) {
         cssOutput += '@';
 
         cssOutput += 'supports';
-        
-        if (uncompress) {
-
-            cssOutput += ' ';
-
-        }
 
         cssOutput += '(';
 
