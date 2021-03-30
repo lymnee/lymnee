@@ -10,27 +10,9 @@ if (typeof cssBefore === 'undefined') {
     
 }
 
-/*cssAfter = `
-Your Css after
-`;*/
-
-/*cssBefore = `
-Your Css before
-`;*/
-
-/*
- * To customize
-*/
-
 if (typeof prefixDataAttributes === 'undefined') {
 
     var prefixDataAttributes = 'data-ym-';
-
-}
-
-if (typeof reset === 'undefined') {
-
-    var reset = 'all';
 
 }
 
@@ -180,19 +162,22 @@ var nodesYmReset = [];
 
 var nodesYmNamesAndValues = [];
 
+
 var tags = document.evaluate('//*[starts-with(name(@*), "' +  prefixDataAttributes.slice(0, -1) + '")]', document, null, XPathResult.ANY_TYPE, null);
 
 var thisNode = tags.iterateNext();
 
 while (thisNode) {
 
-    if (!nodesYmReset.includes(thisNode.nodeName.toLowerCase())) {
+	if (htmlTags.includes(thisNode.nodeName.toLowerCase())) {
 
-		nodesYmReset.push(thisNode.nodeName.toLowerCase());
+		if (!nodesYmReset.includes(thisNode.nodeName.toLowerCase())) {
+
+			nodesYmReset.push(thisNode.nodeName.toLowerCase());
+
+		}
 
 	}
-
-    nodesYmReset.push(thisNode.nodeName.toLowerCase());
 
 	thisNode = tags.iterateNext(); 
 
