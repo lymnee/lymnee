@@ -184,7 +184,7 @@ if (reset === 'lymnee') {
 
     var tags = document.evaluate('//*[starts-with(name(@*), "' +  prefixDataAttributes.slice(0, -1) + '")]', document, null, XPathResult.ANY_TYPE, null);
 	
-	var thisNode = tags.iterateNext();
+	/*var thisNode = tags.iterateNext();
 	
 	while (thisNode) {
 
@@ -195,6 +195,24 @@ if (reset === 'lymnee') {
 		}
 
         nodesYmReset.push(thisNode.nodeName.toLowerCase());
+
+		thisNode = tags.iterateNext(); 
+
+	}*/
+	
+	var thisNode = tags.iterateNext();
+	
+	while (thisNode) {
+
+        if (htmlTags.includes(thisNode.nodeName.toLowerCase())) {
+
+			if (!nodesYmReset.includes(thisNode.nodeName.toLowerCase())) {
+
+				nodesYmReset.push(thisNode.nodeName.toLowerCase());
+
+			}
+
+		}
 
 		thisNode = tags.iterateNext(); 
 
