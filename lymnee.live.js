@@ -10,18 +10,6 @@ if (typeof cssBefore === 'undefined') {
     
 }
 
-/*cssAfter = `
-Your Css after
-`;*/
-
-/*cssBefore = `
-Your Css before
-`;*/
-
-/*
- * To customize
-*/
-
 if (typeof prefixDataAttributes === 'undefined') {
 
     var prefixDataAttributes = 'data-ym-';
@@ -34,139 +22,27 @@ if (typeof reset === 'undefined') {
 
 }
 
+if (typeof uncompress === 'undefined') {
+
+    var uncompress = true;
+
+}
+
 function removeDuplicateEntries(arrayNodes) {
 
-  let stringArray = arrayNodes.map(JSON.stringify);
+    let stringArray = arrayNodes.map(JSON.stringify);
 
-  let uniqueStringArray = new Set(stringArray);
+    let uniqueStringArray = new Set(stringArray);
 
-  return Array.from(uniqueStringArray, JSON.parse);
+    return Array.from(uniqueStringArray, JSON.parse);
 
 }
 
 /*
-    * https://github.com/sindresorhus/html-tags/blob/master/html-tags.json
+   * https://github.com/sindresorhus/html-tags/blob/master/html-tags.json
 */
 
-const htmlTags = [
-	'a',
-	'abbr',
-	'address',
-	'area',
-	'article',
-	'aside',
-	'audio',
-	'b',
-	'base',
-	'bdi',
-	'bdo',
-	'blockquote',
-	'body',
-	'br',
-	'button',
-	'canvas',
-	'caption',
-	'cite',
-	'code',
-	'col',
-	'colgroup',
-	'data',
-	'datalist',
-	'dd',
-	'del',
-	'details',
-	'dfn',
-	'dialog',
-	'div',
-	'dl',
-	'dt',
-	'em',
-	'embed',
-	'fieldset',
-	'figcaption',
-	'figure',
-	'footer',
-	'form',
-	'h1',
-	'h2',
-	'h3',
-	'h4',
-	'h5',
-	'h6',
-	/*'head',*/
-	'header',
-	'hgroup',
-	'hr',
-	'html',
-	'i',
-	'iframe',
-	'img',
-	'input',
-	'ins',
-	'kbd',
-	'label',
-	'legend',
-	'li',
-	/*'link',*/
-	'main',
-	'map',
-	'mark',
-	'math',
-	'menu',
-	'menuitem',
-	/*'meta',*/
-	'meter',
-	'nav',
-	/*'noscript',*/
-	'object',
-	'ol',
-	'optgroup',
-	'option',
-	'output',
-	'p',
-	'param',
-	'picture',
-	'pre',
-	'progress',
-	'q',
-	'rb',
-	'rp',
-	'rt',
-	'rtc',
-	'ruby',
-	's',
-	'samp',
-	/*'script',*/
-	'section',
-	'select',
-	'slot',
-	'small',
-	'source',
-	'span',
-	'strong',
-	/*'style',*/
-	'sub',
-	'summary',
-	'sup',
-	'svg',
-	'table',
-	'tbody',
-	'td',
-	'template',
-	'textarea',
-	'tfoot',
-	'th',
-	'thead',
-	'time',
-	/*'title',*/
-	'tr',
-	'track',
-	'u',
-	'ul',
-	'var',
-	'video',
-	'wbr'
-];
+const htmlImmutablesTags = ['head', 'link', 'meta', 'noscript', 'script', 'style', 'title'];
 
 var styles = [];
 
@@ -183,40 +59,20 @@ var nodesYmNamesAndValues = [];
 if (reset === 'lymnee') {
 
     var tags = document.evaluate('//*[starts-with(name(@*), "' +  prefixDataAttributes.slice(0, -1) + '")]', document, null, XPathResult.ANY_TYPE, null);
-	
-	/*var thisNode = tags.iterateNext();
-	
-	while (thisNode) {
+    
+    var thisNode = tags.iterateNext();
+   
+    while (thisNode) {
 
         if (!nodesYmReset.includes(thisNode.nodeName.toLowerCase())) {
 
-			nodesYmReset.push(thisNode.nodeName.toLowerCase());
+            nodesYmReset.push(thisNode.nodeName.toLowerCase());
 
-		}
+        }
 
-        nodesYmReset.push(thisNode.nodeName.toLowerCase());
+        thisNode = tags.iterateNext(); 
 
-		thisNode = tags.iterateNext(); 
-
-	}*/
-	
-	var thisNode = tags.iterateNext();
-	
-	while (thisNode) {
-
-        if (htmlTags.includes(thisNode.nodeName.toLowerCase())) {
-
-			if (!nodesYmReset.includes(thisNode.nodeName.toLowerCase())) {
-
-				nodesYmReset.push(thisNode.nodeName.toLowerCase());
-
-			}
-
-		}
-
-		thisNode = tags.iterateNext(); 
-
-	}
+    }
 
 }
 
@@ -224,43 +80,43 @@ if (reset === 'all') {
 
     var tags = document.evaluate('//*', document, null, XPathResult.ANY_TYPE, null);
 
-	var thisNode = tags.iterateNext();
-	
-	while (thisNode) {
+    var thisNode = tags.iterateNext();
+   
+    while (thisNode) {
 
-        if (htmlTags.includes(thisNode.nodeName.toLowerCase())) {
+        if (!htmlImmutablesTags.includes(thisNode.nodeName.toLowerCase())) {
 
-			if (!nodesYmReset.includes(thisNode.nodeName.toLowerCase())) {
+            if (!nodesYmReset.includes(thisNode.nodeName.toLowerCase())) {
 
-				nodesYmReset.push(thisNode.nodeName.toLowerCase());
+               nodesYmReset.push(thisNode.nodeName.toLowerCase());
 
-			}
+            }
 
-		}
+        }
 
-		thisNode = tags.iterateNext(); 
-
-	}
+        thisNode = tags.iterateNext(); 
+    
+    }
 
 }
 
 var nodesYm = document.evaluate('//@*[starts-with(name(), "' +  prefixDataAttributes.slice(0, -1) + '")]', document, null, XPathResult.ANY_TYPE, null);
 
 var thisNode = nodesYm.iterateNext();
-	
+   
 while (thisNode) {
 
     nodesYmNames.push(thisNode.nodeName);
 
     nodesYmValues.push(thisNode.nodeValue);
 
-	thisNode = nodesYm.iterateNext(); 
+    thisNode = nodesYm.iterateNext(); 
 
 }
 
 nodesYmNamesAndValues = nodesYmNames.map((el, i) => {
 
-	return [nodesYmNames[i], nodesYmValues[i]];
+    return [nodesYmNames[i], nodesYmValues[i]];
 
 });
 
@@ -272,11 +128,11 @@ nodesYmNamesAndValues.sort((a, b) => a[1].localeCompare(b[1]));
 
 nodesYmNamesAndValues.sort(function (a,b) {
 
-    if (a[0] > b[0]) return  1;
+    if (a[0] > b[0]) return 1;
 
     if (a[0] < b[0]) return -1;
 
-    if (a[2] > b[2]) return  1;
+    if (a[2] > b[2]) return 1;
 
     if (a[2] < b[2]) return -1;
 
@@ -288,53 +144,69 @@ var styles = [];
 
 nodesYmNamesAndValues.forEach(function (nodeYmNameAndValue) {
 
-    var rules = nodeYmNameAndValue[1].split(' || ');
+   var rules = nodeYmNameAndValue[1].split(' || ');
 
-    rules.forEach(function (rule) {
+   rules.forEach(function (rule) {
 
-        let style = [];
+       let style = [];
 
-        style.contextualSelector = null;
-        
-        style.media = null;
+       style.contextualSelector = null;
+       
+       style.media = null;
+       
+       style.pseudoClasses = null;
 
-        style.pseudoElement = null;
-    
-        style.support = null;
+       style.pseudoElement = null;
+   
+       style.support = null;
 
-        let ruleSupport = rule.split(' !! ');
-    
-        if (ruleSupport[1]) {
-        
-            style.support = ruleSupport[1].trim();
-            
-        }
+       let ruleSupport = rule.split(' !! ');
+   
+       if (ruleSupport[1]) {
+       
+           style.support = ruleSupport[1].trim();
+           
+       }
 
-        let ruleContextualSelector = ruleSupport[0].split(' && ');
-    
-        if (ruleContextualSelector[1]) {
-        
-            style.contextualSelector = ruleContextualSelector[1].trim();
-            
-        }
+       let ruleContextualSelector = ruleSupport[0].split(' && ');
+   
+       if (ruleContextualSelector[1]) {
+       
+           style.contextualSelector = ruleContextualSelector[1].trim();
+           
+       }
 
-        ruleMedia = ruleContextualSelector[0].split('@');
+       ruleMedia = ruleContextualSelector[0].split('@');
 
-        if (ruleMedia[1]) {
-        
-            style.media = ruleMedia[1].trim();
-            
-        }
+       if (ruleMedia[1]) {
+       
+           style.media = ruleMedia[1].trim();
+           
+       }
 
-        rulePseudoElement = ruleMedia[0].split('::');
+       rulePseudoElement = ruleMedia[0].split('::');
 
         if (rulePseudoElement[1]) {
-        
+       
             style.pseudoElement = rulePseudoElement[1].trim();
-        
+       
+        }
+       
+        rulePseudoClasses = rulePseudoElement[0].split(':');
+       
+        if (rulePseudoClasses[1]) {
+           
+            style.pseudoClasses = [];
+           
+            rulePseudoElement[0].replace(rulePseudoClasses[0] + ':', '').split(':').forEach(function(pseudoClass) {
+   
+                style.pseudoClasses.push(pseudoClass);
+   
+            });
+           
         }
 
-        style.value = rulePseudoElement[0].trim();
+        style.value = rulePseudoClasses[0].trim();
 
         style.selector = nodeYmNameAndValue[0] + '=' + '"' + nodeYmNameAndValue[1] + '"';
 
@@ -342,123 +214,331 @@ nodesYmNamesAndValues.forEach(function (nodeYmNameAndValue) {
 
         styles.push(style);
 
-    });
+   });
 
 });
 
 if (nodesYmReset.length) {
 
-    nodesYmReset.forEach(function (nodeYmReset, index) {
+    if (uncompress) {
 
-        cssOutput += nodeYmReset;
+        nodesYmReset.forEach(function (nodeYmReset, index) {
 
-        if (index !== nodesYmReset.length - 1) {
+            cssOutput += nodeYmReset;
+     
+            if (index !== nodesYmReset.length - 1) {
+     
+                cssOutput += ',';
+     
+                cssOutput += '\n';
+     
+            } else {
+     
+                /* Last element */
+     
+                cssOutput += ' ';
+     
+            }
+     
+        });
+     
+        cssOutput += '{';
 
-            cssOutput += ',';
+        cssOutput += '\n';
+     
+        cssOutput += '\t';
+ 
+        cssOutput += 'all: unset';
+ 
+        cssOutput += '\n';
+        
+        cssOutput += '}';
+     
+        cssOutput += '\n';
+     
+    } else {
 
-        }
+        nodesYmReset.forEach(function (nodeYmReset, index) {
 
-    });
+            cssOutput += nodeYmReset;
+     
+            if (index !== nodesYmReset.length - 1) {
+     
+                cssOutput += ',';
+     
+            }
+     
+        });
+     
+        cssOutput += '{';
 
-    cssOutput += '{';
-	
-	cssOutput += 'all:unset';
-    
-    cssOutput += '}';
+        cssOutput += 'all:unset';
+        
+        cssOutput += '}';
+
+    }
 
 }
 
 styles.forEach(function (style) {
 
-    if (style.support !== null) {
+    var nesting = 0;
 
-        cssOutput += '@';
+    if (uncompress) {
 
-        cssOutput += 'supports';
+        if (style.support !== null) {
 
-        cssOutput += '(';
+            cssOutput += '@';
+     
+            cssOutput += 'supports';
+     
+            cssOutput += ' ';
+     
+            cssOutput += '(';
+     
+            cssOutput += style.support;
+     
+            cssOutput += ')';
+     
+            cssOutput += ' ';
+        
+            cssOutput += '{';
 
-        cssOutput += style.support;
+            cssOutput += '\n';
+    
+            cssOutput += '\t'.repeat(++nesting);
+     
+        }
+     
+        if (style.media !== null) {
+     
+            cssOutput += '@';
+     
+            cssOutput += style.media;
 
-        cssOutput += ')';
+            cssOutput += ' ';
+     
+            cssOutput += '{';
 
-        cssOutput += '{';
+            cssOutput += '\n';
+     
+            cssOutput += '\t'.repeat(++nesting);
+     
+        }
+     
+        if (style.contextualSelector !== null) {
+     
+            cssOutput += style.contextualSelector;
+     
+            cssOutput += ' ';
+     
+            cssOutput += '[';
+     
+            cssOutput += style.selector;
+     
+            cssOutput += ']';
+     
+        } else {
+     
+            cssOutput += '[';
 
-    }
+            cssOutput += style.selector;
 
-    if (style.media !== null) {
+            cssOutput += ']';
+     
+        }
 
-        cssOutput += '@';
+        if (style.pseudoClasses !== null) {
 
-        cssOutput += style.media;
+            style.pseudoClasses.forEach(function(pseudoClass) {
 
-        cssOutput += '{';
+                cssOutput += ':';
 
-    }
+                if (pseudoClass.substring(0, 3) === 'not') {
 
-    if (style.contextualSelector !== null) {
+                    cssOutput += ' ';
+                
+                }
 
-        cssOutput += '.';
+                cssOutput += pseudoClass;
 
-        cssOutput += style.contextualSelector;
+            });
+
+        }
+            
+        if (style.pseudoElement !== null) {
+
+            cssOutput += '::';
+
+            cssOutput += style.pseudoElement;
+
+        }
 
         cssOutput += ' ';
 
-        cssOutput += '[';
+        cssOutput += '{';
 
-        cssOutput += style.selector;
+        cssOutput += '\n';
 
-        cssOutput += ']';
+        cssOutput += '\t'.repeat(++nesting);
+
+        cssOutput += style.property.replace(prefixDataAttributes, '');
+
+        cssOutput += ':';
+
+        cssOutput += ' ';
+
+        cssOutput += style.value;
+
+        cssOutput += '\n';
+
+        while (nesting--) {
+
+            cssOutput += '\t'.repeat(nesting);
+
+            cssOutput += '}';
+
+            cssOutput += '\n';
+
+        }
 
     } else {
 
-        cssOutput += '[';
+        if (style.support !== null) {
 
-        cssOutput += style.selector;
+            cssOutput += '@';
+     
+            cssOutput += 'supports';
+     
+            cssOutput += '(';
+     
+            cssOutput += style.support;
+     
+            cssOutput += ')';
+     
+            cssOutput += '{';
 
-        cssOutput += ']';
+            nesting++;
+     
+        }
+     
+        if (style.media !== null) {
+     
+            cssOutput += '@';
+     
+            cssOutput += style.media;
+     
+            cssOutput += '{';
 
-    }
+            nesting++;
+     
+        }
+     
+        if (style.contextualSelector !== null) {
+     
+            cssOutput += style.contextualSelector;
 
-    if (style.pseudoElement !== null) {
+            cssOutput += '[';
+     
+            cssOutput += style.selector;
+     
+            cssOutput += ']';
+     
+        } else {
+     
+            cssOutput += '[';
+     
+            cssOutput += style.selector;
+     
+            cssOutput += ']';
+     
+        }
+        
+        if (style.pseudoClasses !== null) {
+            
+            style.pseudoClasses.forEach(function(pseudoClass) {
+                
+                cssOutput += ':';
 
-        cssOutput += '::';
+                if (pseudoClass === 'not') {
 
-        cssOutput += style.pseudoElement;
+                    cssOutput += ' ';
+               
+                }
+                
+                cssOutput += pseudoClass;
+                
+            });
+     
+        }
+     
+        if (style.pseudoElement !== null) {
+     
+            cssOutput += '::';
+     
+            cssOutput += style.pseudoElement;
+     
+        }
+     
+        cssOutput += '{';
 
-    }
+        nesting++;
 
-    cssOutput += '{';
+        cssOutput += style.property.replace(prefixDataAttributes, '');
+     
+        cssOutput += ':';
+     
+        cssOutput += style.value;
 
-    cssOutput += style.property.replace(prefixDataAttributes, '');
+        while (nesting--) {
 
-    cssOutput += ':';
-
-    cssOutput += style.value;
-
-    cssOutput += '}';
-
-    if (style.media !== null) {
-
-        cssOutput += '}';
-
-    }
-
-    if (style.support !== null) {
-
-        cssOutput += '}';
+            cssOutput += '}';
+        
+        }
 
     }
 
 });
 
-document.addEventListener('DOMContentLoaded', (event) => {
+if (uncompress) {
 
-	var style = document.createElement('style');
+    console.clear();
+
+    console.log('%c\u003D' + ' ' + '%cLymnee', 'color: #ff0000;', 'color: #000000');
+
+    console.log('Output');
+
+    console.log('%c\u003D\u003D\u003D\u003D\u003D', 'color: #ff0000');
+
+    console.log(cssOutput);
+
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    var style = document.createElement('style');
 	
-	if (!!cssBefore) {
+    if (!!cssBefore) {
 
-		style.innerHTML += cssBefore;
+        if (uncompress) {
+
+            style.innerHTML += '/*** > Css Before ***/';
+
+            style.innerHTML += '\n';
+
+            style.innerHTML += cssBefore;
+
+            style.innerHTML += '\n';
+
+            style.innerHTML += '/*** < Css Before ***/';
+
+            style.innerHTML += '\n';
+
+        } else {
+
+            style.innerHTML += cssBefore.trim();
+
+        }
 
 	}
 
@@ -466,7 +546,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
 	
 	if (!!cssAfter) {
 
-		style.innerHTML += cssAfter;
+        if (uncompress) {
+
+            style.innerHTML += '/*** > Css After ***/';
+
+            style.innerHTML += '\n';
+
+            style.innerHTML += cssAfter;
+
+            style.innerHTML += '\n';
+
+            style.innerHTML += '/*** < Css After ***/';
+
+            style.innerHTML += '\n';
+
+        } else {
+
+		    style.innerHTML += cssAfter.trim();
+
+        }
 
 	}
 
