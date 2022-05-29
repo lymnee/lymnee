@@ -279,7 +279,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
 
     try {
 
-        var style = document.createElement(`style`);
+        let style = document.createElement(`style`);
 
         if (!!cssBefore) {
 
@@ -295,7 +295,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
 
         }
 
-        var head = document.getElementsByTagName(`head`)[0];
+        let head = document.getElementsByTagName(`head`)[0];
 
         head.appendChild(style);
 
