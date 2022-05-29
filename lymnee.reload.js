@@ -201,10 +201,6 @@ try {
             atRules.forEach((atRule) => {
 
                 styles += atRule + `{`;
-                
-                /*styles += `<!--ah-->    \n\t`.repeat(nestings);*/
-                
-                styles += `<!--ah-->`;
 
                 nestings++;
 
