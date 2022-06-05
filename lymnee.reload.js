@@ -253,7 +253,7 @@ if (!!output) {
     
     try {
 
-        console.log(`%c\u003D` + ` ` + `%cLymnee`, `color: #ff0000;`, `color: #000000`);
+        console.log(`%c\u003D` + ` ` + `%cLYMNEE`, `color: #ff0000;`, `color: #000000`);
 
         console.log(`Output`);
 
@@ -261,9 +261,11 @@ if (!!output) {
 
         console.log(styles);
         
+        console.log(`%c\u003D\u003D\u003D\u003D\u003D`, `color: #ff0000`);
+        
         const shuffle = v=>[...v].sort(_=>Math.random()-.5).join(``);
         
-        console.log(`%c\u003D\u003D` + ` ` + `%c` + shuffle(`lymnee`), `color: #ff0000;`, `color: #000000`);
+        console.log(`%c\u003D` + ` ` + `%c` + shuffle(`LYMNEE`), `color: #ff0000;`, `color: #000000`);
     
     } catch (error) {
 
@@ -275,7 +277,7 @@ if (!!output) {
 
 }
     
-document.addEventListener(`DOMContentLoaded`, () => {
+window.addEventListener(`DOMContentLoaded`, () => {
 
     try {
 
@@ -298,7 +300,14 @@ document.addEventListener(`DOMContentLoaded`, () => {
         let head = document.getElementsByTagName(`head`)[0];
 
         head.appendChild(style);
-
+        
+        if (document.querySelector('html').hasAttribute('data-eenmyl')) {
+            
+            document.querySelector('html').removeAttribute('data-eenmyl');
+            
+        }
+        
+        document.querySelector('html').setAttribute('data-lymnee', '');
 
 
     } catch (error) {
