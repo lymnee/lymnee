@@ -301,13 +301,13 @@ window.addEventListener(`DOMContentLoaded`, () => {
 
         head.appendChild(style);
         
-        if (document.querySelector('html').hasAttribute('data-eenmyl')) {
+        if (document.querySelector(`html`).hasAttribute(`data-eenmyl`)) {
             
-            document.querySelector('html').removeAttribute('data-eenmyl');
+            document.querySelector(`html`).removeAttribute(`data-eenmyl`);
             
         }
         
-        document.querySelector('html').setAttribute('data-lymnee', '');
+        document.querySelector(`html`).setAttribute(`data-lymnee`, ``);
 
 
     } catch (error) {
