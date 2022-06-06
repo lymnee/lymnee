@@ -289,7 +289,7 @@ window.addEventListener(`DOMContentLoaded`, () => {
 
         }
 
-        style.innerHTML = styles;
+        style.innerHTML += styles;
 
         if (!!cssAfter) {
 
