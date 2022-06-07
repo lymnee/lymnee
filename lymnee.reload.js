@@ -35,7 +35,7 @@ try {
 
     while (thisNode) {
 
-       nodesYmMap.set(thisNode.nodeValue, thisNode.nodeName);
+       nodesYmMap.set(thisNode.nodeName, thisNode.nodeValue);
 
        thisNode = nodesYm.iterateNext(); 
 
@@ -50,6 +50,8 @@ try {
         thisNode = tagsYm.iterateNext(); 
 
     }
+    
+    console.log(...nodesYmMap);
 
     nodesYmMap.forEach((key, value) => {
         
@@ -58,8 +60,8 @@ try {
                 https://bobbyhadz.com/blog/javascript-split-trim-surrounding-spaces
             *
         */
-            
-        let alternatives = value.split(`||`).map(element => element.trim());
+        
+        let alternatives = key.split(`||`).map(element => element.trim());
 
         alternatives.forEach((alternative) => {
             
@@ -142,9 +144,9 @@ try {
 
             rule.set(`pseudoClass`, pseudoClass);
             
-            rule.set(`default`, key.substr(prefixDataAttributes.length) + `:` + split[0].replace(/Ox/, `\\`));
-
-            cssRules.set(rule, `[` + key + `=` + `"` + value + `"]`);
+            rule.set(`default`, value.substr(prefixDataAttributes.length) + `:` + split[0].replace(/Ox/, `\\`));
+            
+            cssRules.set(rule, `[` + value + `=` + `"` + key + `"]`);
 
         });        
 
