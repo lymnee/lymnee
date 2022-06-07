@@ -50,8 +50,6 @@ try {
         thisNode = tagsYm.iterateNext(); 
 
     }
-    
-    console.log(...nodesYmMap);
 
     nodesYmMap.forEach((key, value) => {
         
