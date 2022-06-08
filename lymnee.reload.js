@@ -13,17 +13,16 @@ if (typeof cssBefore === `undefined`) {
 var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
     
     output = output ?? true,
-    
+
     reset = reset ?? false,
-    
+
     styles = ``,
 
-    
-    nodesYmMap = new Map(),
-    
     cssRules = new Map(),
 
-    cssSelectors = new Set();
+    cssSelectors = new Set(),
+
+    nodesYmAttributes = new Set();
     
 try {
 
@@ -35,9 +34,17 @@ try {
 
     while (thisNode) {
 
-       nodesYmMap.set(thisNode.nodeName, thisNode.nodeValue);
+        /*
+        *
+        'thisNode' is an object. That's why we prefer to use 'thisNode.nodeName' and 'thisNode.nodeValue'.
 
-       thisNode = nodesYm.iterateNext(); 
+        nodesYmAttributes.add(thisNode);
+        *
+        */
+
+        nodesYmAttributes.add(thisNode.nodeName + `=` + thisNode.nodeValue);
+
+        thisNode = nodesYm.iterateNext(); 
 
     }
 
@@ -51,22 +58,26 @@ try {
 
     }
 
-    nodesYmMap.forEach((key, value) => {
-        
-         /*
-            *
-                https://bobbyhadz.com/blog/javascript-split-trim-surrounding-spaces
-            *
+    nodesYmAttributes.forEach((YmAttribute) => {
+
+        let YmName = YmAttribute.split(`=`)[0];
+
+        let YmValue = YmAttribute.split(`=`)[1];
+
+        /*
+        *
+        https://bobbyhadz.com/blog/javascript-split-trim-surrounding-spaces
+        *
         */
-        
-        let alternatives = key.split(`||`).map(element => element.trim());
+
+        let alternatives = YmValue.split(`||`).map(element => element.trim());
 
         alternatives.forEach((alternative) => {
-            
+
             let rule = new Map();
 
             let split;
-            
+
             let contextualSelector;
 
             split = alternative.split(` && `);
@@ -94,10 +105,10 @@ try {
             let pseudoElement;
 
             /*
-                *
-                    https://bobbyhadz.com/blog/javascript-split-remove-empty-elements
+            *
+            https://bobbyhadz.com/blog/javascript-split-remove-empty-elements
 
-                *
+            *
             */
 
             split = split[0].split(/(\s){0,1}(::)/).filter(Boolean);
@@ -141,14 +152,14 @@ try {
             }
 
             rule.set(`pseudoClass`, pseudoClass);
-            
-            rule.set(`default`, value.substr(prefixDataAttributes.length) + `:` + split[0].replace(/Ox/, `\\`));
-            
-            cssRules.set(rule, `[` + value + `=` + `"` + key + `"]`);
 
-        });        
+            rule.set(`default`, YmName.substr(prefixDataAttributes.length) + `:` + split[0].replace(/Ox/, `\\`));
 
-    });
+            cssRules.set(rule, `[` + YmName + `=` + `"` + YmValue + `"]`);
+
+        });  
+
+});
     
 } catch (error) {
 
@@ -200,9 +211,9 @@ try {
 
             atRules.forEach((atRule) => {
 
-                styles += atRule + `{`;
+            styles += atRule + `{`;
 
-                nestings++;
+            nestings++;
 
             });
 
@@ -230,17 +241,18 @@ try {
 
         styles += `{`;
 
-        if (value.get(`default`)) {
+            if (value.get(`default`)) {
 
             styles += value.get(`default`);
 
             nestings++;
+        
         }
 
         styles += `}`.repeat(nestings);
 
     });
-    
+
 } catch (error) {
 
     console.log(error.name);
@@ -260,19 +272,19 @@ if (!!output) {
         console.log(`%c\u003D\u003D\u003D\u003D\u003D`, `color: #ff0000`);
 
         console.log(styles);
-        
+
         console.log(`%c\u003D\u003D\u003D\u003D\u003D`, `color: #ff0000`);
-        
+
         const shuffle = v=>[...v].sort(_=>Math.random()-.5).join(``);
-        
+
         console.log(`%c\u003D` + ` ` + `%c` + shuffle(`LYMNEE`), `color: #ff0000;`, `color: #000000`);
-    
+
     } catch (error) {
 
         console.log(error.name);
-    
+
         console.log(error.message); 
-    
+
     }
 
 }
@@ -300,13 +312,13 @@ window.addEventListener(`DOMContentLoaded`, () => {
         let head = document.getElementsByTagName(`head`)[0];
 
         head.appendChild(style);
-        
+
         if (document.querySelector(`html`).hasAttribute(`data-eenmyl`)) {
-            
+
             document.querySelector(`html`).removeAttribute(`data-eenmyl`);
-            
+
         }
-        
+
         document.querySelector(`html`).setAttribute(`data-lymnee`, ``);
 
 
@@ -317,5 +329,5 @@ window.addEventListener(`DOMContentLoaded`, () => {
         console.log(error.message); 
 
     }
-            
+
 });
