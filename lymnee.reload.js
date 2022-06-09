@@ -35,10 +35,10 @@ try {
     while (thisNode) {
 
         /*
-        *
-        'thisNode' is an object. That's why we prefer to use 'thisNode.nodeName' and 'thisNode.nodeValue'.
+            *
+                'thisNode' is an object. That's why we prefer to use 'thisNode.nodeName' and 'thisNode.nodeValue'.
 
-        nodesYmAttributes.add(thisNode);
+                nodesYmAttributes.add(thisNode);
         *
         */
 
