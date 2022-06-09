@@ -1,20 +1,20 @@
-if (typeof cssAfter === `undefined`) {
+if (typeof cssAfterLymnee === `undefined`) {
 
-    var cssAfter;
+    var cssAfterLymnee;
     
 }
 
-if (typeof cssBefore === `undefined`) {
+if (typeof cssBeforeLymnee === `undefined`) {
 
-    var cssBefore;
+    var cssBeforeLymnee;
     
 }
 
 var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
     
-    output = output ?? true,
+    outputLymnee = outputLymnee ?? true,
 
-    reset = reset ?? false,
+    resetLymnee = resetLymnee ?? false,
 
     styles = ``,
 
@@ -42,7 +42,7 @@ try {
         *
         */
 
-        nodesYmAttributes.add(thisNode.nodeName + `=` + thisNode.nodeValue);
+        nodesYmAttributes.add(thisNode.nodeName.trim() + `=` + thisNode.nodeValue.trim());
 
         thisNode = nodesYm.iterateNext(); 
 
@@ -65,9 +65,9 @@ try {
         let YmValue = YmAttribute.split(`=`)[1];
 
         /*
-        *
-        https://bobbyhadz.com/blog/javascript-split-trim-surrounding-spaces
-        *
+            *
+                https://bobbyhadz.com/blog/javascript-split-trim-surrounding-spaces
+            *
         */
 
         let alternatives = YmValue.split(`||`).map(element => element.trim());
@@ -169,7 +169,7 @@ try {
 
 }
     
-if (!!reset) {
+if (!!resetLymnee) {
     
     try {
     
@@ -261,7 +261,7 @@ try {
 
 }
 
-if (!!output) {
+if (!!outputLymnee) {
     
     try {
 
@@ -295,17 +295,17 @@ window.addEventListener(`DOMContentLoaded`, () => {
 
         let style = document.createElement(`style`);
 
-        if (!!cssBefore) {
+        if (!!cssBeforeLymnee) {
 
-            style.innerHTML += cssBefore;
+            style.innerHTML += cssBeforeLymnee;
 
         }
 
         style.innerHTML += styles;
 
-        if (!!cssAfter) {
+        if (!!cssAfterLymnee) {
 
-            style.innerHTML += cssAfter;
+            style.innerHTML += cssAfterLymnee;
 
         }
 
