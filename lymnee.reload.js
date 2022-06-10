@@ -288,10 +288,10 @@ if (!!outputLymnee) {
     }
 
 }
-    
-window.addEventListener(`DOMContentLoaded`, () => {
 
-    try {
+try {
+
+    window.addEventListener(`DOMContentLoaded`, () => {
 
         let style = document.createElement(`style`);
 
@@ -321,13 +321,13 @@ window.addEventListener(`DOMContentLoaded`, () => {
 
         document.querySelector(`html`).setAttribute(`data-lymnee`, ``);
 
+    });
 
-    } catch (error) {
 
-        console.log(error.name);
+} catch (error) {
 
-        console.log(error.message); 
+    console.log(error.name);
 
-    }
+    console.log(error.message); 
 
-});
+}
