@@ -12,7 +12,7 @@ if (typeof cssBeforeLymnee === `undefined`) {
 
 var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
     
-    outputLymnee = outputLymnee ?? true,
+    outputLymnee = outputLymnee ?? false,
 
     resetLymnee = resetLymnee ?? false,
 
@@ -39,7 +39,7 @@ try {
                 'thisNode' is an object. That's why we prefer to use 'thisNode.nodeName' and 'thisNode.nodeValue'.
 
                 nodesYmAttributes.add(thisNode);
-        *
+            *
         */
 
         nodesYmAttributes.add(thisNode.nodeName.trim() + `=` + thisNode.nodeValue.trim());
