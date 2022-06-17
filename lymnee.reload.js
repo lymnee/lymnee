@@ -14,7 +14,7 @@ var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
     
     outputLymnee = outputLymnee ?? false,
 
-    resetLymnee = resetLymnee ?? false,
+    printLymnee = printLymnee ?? false,
 
     styles = ``,
 
@@ -169,7 +169,7 @@ try {
 
 }
     
-if (!!resetLymnee) {
+if (!!printLymnee) {
     
     try {
     
