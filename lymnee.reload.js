@@ -11,10 +11,10 @@ if (typeof cssBeforeLymnee === `undefined`) {
 }
 
 var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
-    
-    outputLymnee = outputLymnee ?? false,
 
     printLymnee = printLymnee ?? false,
+
+    unsetLymnee = unsetLymnee ?? false,
 
     styles = ``,
 
@@ -169,7 +169,7 @@ try {
 
 }
     
-if (!!printLymnee) {
+if (!!unsetLymnee) {
     
     try {
     
@@ -261,7 +261,7 @@ try {
 
 }
 
-if (!!outputLymnee) {
+if (!!printLymnee) {
     
     try {
 
