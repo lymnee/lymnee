@@ -173,39 +173,23 @@ if (!!unsetLymnee) {
     
     try {
 
-        var selectors;
-
         if (unsetLymnee.size) {
-
-            selectors = 0;
 
             unsetLymnee.forEach((value) => {
 
-                styles += value;
-    
-                if (++selectors <= unsetLymnee.size) {
-    
-                    styles += `,`;
-    
-                }
+                styles += value + `,`;
     
             });
 
         }
-    
-        selectors = 0;
 
         cssSelectors.forEach((value) => {
 
-            styles += value;
-
-            if (++selectors < cssSelectors.size) {
-
-                styles += `,`;
-
-            }
+            styles += value + `,`;
 
         });
+
+        styles = styles.replace(/,$/, ``);
         
         styles += `{all:unset}`;
 
