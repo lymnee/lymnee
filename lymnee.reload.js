@@ -172,8 +172,28 @@ try {
 if (!!unsetLymnee) {
     
     try {
+
+        var selectors;
+
+        if (unsetLymnee.size) {
+
+            selectors = 0;
+
+            unsetLymnee.forEach((value) => {
+
+                styles += value;
     
-        var selectors = 0;
+                if (++selectors <= unsetLymnee.size) {
+    
+                    styles += `,`;
+    
+                }
+    
+            });
+
+        }
+    
+        selectors = 0;
 
         cssSelectors.forEach((value) => {
 
