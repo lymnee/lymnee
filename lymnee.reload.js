@@ -105,10 +105,10 @@ try {
             let pseudoElement;
 
             /*
-            *
-            https://bobbyhadz.com/blog/javascript-split-remove-empty-elements
+                *
+                    https://bobbyhadz.com/blog/javascript-split-remove-empty-elements
 
-            *
+                *
             */
 
             split = split[0].split(/(\s){0,1}(::)/).filter(Boolean);
@@ -293,9 +293,9 @@ if (!!printLymnee) {
 
 }
 
-try {
+window.addEventListener(`DOMContentLoaded`, () => {
 
-    window.addEventListener(`DOMContentLoaded`, () => {
+    try {
 
         let style = document.createElement(`style`);
 
@@ -325,13 +325,12 @@ try {
 
         document.querySelector(`html`).setAttribute(`data-lymnee`, ``);
 
-    });
+    } catch (error) {
 
+        console.log(error.name);
+    
+        console.log(error.message); 
+    
+    }
 
-} catch (error) {
-
-    console.log(error.name);
-
-    console.log(error.message); 
-
-}
+});
