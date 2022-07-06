@@ -293,44 +293,40 @@ if (!!printLymnee) {
 
 }
 
-window.addEventListener(`DOMContentLoaded`, () => {
+try {
 
-    try {
+    let style = document.createElement(`style`);
 
-        let style = document.createElement(`style`);
+    if (!!cssBeforeLymnee) {
 
-        if (!!cssBeforeLymnee) {
+        style.innerHTML += cssBeforeLymnee;
 
-            style.innerHTML += cssBeforeLymnee;
-
-        }
-
-        style.innerHTML += styles;
-
-        if (!!cssAfterLymnee) {
-
-            style.innerHTML += cssAfterLymnee;
-
-        }
-
-        let head = document.getElementsByTagName(`head`)[0];
-
-        head.appendChild(style);
-
-        if (document.querySelector(`html`).hasAttribute(`data-eenmyl`)) {
-
-            document.querySelector(`html`).removeAttribute(`data-eenmyl`);
-
-        }
-
-        document.querySelector(`html`).setAttribute(`data-lymnee`, ``);
-
-    } catch (error) {
-
-        console.log(error.name);
-    
-        console.log(error.message); 
-    
     }
 
-});
+    style.innerHTML += styles;
+
+    if (!!cssAfterLymnee) {
+
+        style.innerHTML += cssAfterLymnee;
+
+    }
+
+    let head = document.getElementsByTagName(`head`)[0];
+
+    head.appendChild(style);
+
+    if (document.querySelector(`html`).hasAttribute(`data-eenmyl`)) {
+
+        document.querySelector(`html`).removeAttribute(`data-eenmyl`);
+
+    }
+
+    document.querySelector(`html`).setAttribute(`data-lymnee`, ``);
+
+} catch (error) {
+
+    console.log(error.name);
+
+    console.log(error.message); 
+
+}
