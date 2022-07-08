@@ -20,11 +20,21 @@ var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
 
     cssRules = new Map(),
 
-    cssSelectors = new Set(),
+    cssSelectors,
 
     nodesYmAttributes = new Set();
     
 try {
+
+    if (unsetLymnee.size) {
+
+        cssSelectors = new Set(unsetLymnee);
+
+    } else {
+
+        cssSelectors = new Set();
+
+    }
 
     var nodesYm = document.evaluate(`//@*[starts-with(name(), "` +  prefixDataAttributes.slice(0, -1) + `")]`, document, null, XPathResult.ANY_TYPE, null);
 
@@ -173,19 +183,17 @@ if (!!unsetLymnee) {
     
     try {
 
-        if (unsetLymnee.size) {
-
-            unsetLymnee.forEach((value) => {
-
-                styles += value + `,`;
-    
-            });
-
-        }
+        var selectors = 0;
 
         cssSelectors.forEach((value) => {
 
-            styles += value + `,`;
+            styles += value;
+
+            if (++selectors < cssSelectors.size) {
+
+                styles += `,`;
+
+            }
 
         });
 
