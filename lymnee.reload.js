@@ -1,28 +1,30 @@
 if (typeof cssAfterLymnee === `undefined`) {
 
     var cssAfterLymnee;
-    
+
 }
 
 if (typeof cssBeforeLymnee === `undefined`) {
 
     var cssBeforeLymnee;
-    
+
 }
 
 var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
 
-    printLymnee = printLymnee ?? false,
+entriesLymnee = entriesLymnee ?? false,
 
-    unsetLymnee = unsetLymnee ?? false,
+printLymnee = printLymnee ?? false,
 
-    styles = ``,
+unsetLymnee = unsetLymnee ?? false,
 
-    cssRules = new Map(),
+styles = ``,
 
-    cssSelectors,
+cssRules = new Map(),
 
-    nodesYmAttributes = new Set();
+cssSelectors,
+
+nodesYmAttributes = new Set();
     
 try {
 
@@ -33,6 +35,20 @@ try {
     } else {
 
         cssSelectors = new Set();
+
+    }
+
+    if (entriesLymnee.size) {
+
+        /*
+            *
+                Callback function!
+
+                https://www.javascripttutorial.net/es6/javascript-set/
+            *
+        */
+
+        entriesLymnee.forEach(entry => nodesYmAttributes.add(entry.split(`=`)[0].trim() + `=` + entry.split(`=`)[1].trim().replace(/"/g, ``)));
 
     }
 
@@ -169,8 +185,8 @@ try {
 
         });  
 
-});
-    
+    });
+
 } catch (error) {
 
     console.log(error.name);
@@ -178,41 +194,41 @@ try {
     console.log(error.message); 
 
 }
-    
+
 if (!!unsetLymnee) {
-    
-    try {
 
-        var selectors = 0;
-
-        cssSelectors.forEach((value) => {
-
-            styles += value;
-
-            if (++selectors < cssSelectors.size) {
-
-                styles += `,`;
-
-            }
-
-        });
-
-        styles = styles.replace(/,$/, ``);
-        
-        styles += `{all:unset}`;
-
-    } catch (error) {
-
-        console.log(error.name);
-
-        console.log(error.message); 
-    
-    }
-    
-}
-    
 try {
+
+    var selectors = 0;
+
+    cssSelectors.forEach((value) => {
+
+        styles += value;
+
+        if (++selectors < cssSelectors.size) {
+
+            styles += `,`;
+
+        }
+
+    });
+
+    styles = styles.replace(/,$/, ``);
     
+    styles += `{all:unset}`;
+
+} catch (error) {
+
+    console.log(error.name);
+
+    console.log(error.message); 
+
+}
+
+}
+
+try {
+
     cssRules.forEach((key, value) => {
 
         let nestings = 0;
@@ -265,7 +281,7 @@ try {
 
     });
 
-} catch (error) {
+    } catch (error) {
 
     console.log(error.name);
 
@@ -274,7 +290,7 @@ try {
 }
 
 if (!!printLymnee) {
-    
+
     try {
 
         console.log(`%c\u003D` + ` ` + `%cLYMNEE`, `color: #ff0000;`, `color: #000000`);
