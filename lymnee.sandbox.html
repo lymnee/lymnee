@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html style="font-family: monospace; font-size: x-large">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lymnee Sandbox</title>
+</head>
+<body>
+<div data-js-from-html>
+<div data-ym-display="flex@supports (display: grid)">
+    <p>A</p>
+    <p>B</p>
+</div>
+</div>
+<pre data-js-to-html style="background-color:#ddd"></pre>
+<pre data-js-to-css style="background-color: #ddd;"></pre>
+    <script>       
+    var prefixDataAttributes = `data-ym`,
+        printLymnee = true;
+
+    function convertHtml(html) {
+        
+        try {
+        
+            html = html
+            .replaceAll(`<`, `&#x3c;`)
+            .replaceAll(`>`, `&#x3e;`)
+            .trim();
+            
+        } catch (error) {
+
+            console.log(error.name);
+
+            console.log(error.message); 
+
+        } finally {
+        
+            return html;
+            
+        }
+        
+    }
+
+    window.addEventListener(`DOMContentLoaded`, () => {
+
+        try {
+
+            document.querySelector(`[data-js-to-html]`).textContent = convertHtml(document.querySelector(`[data-js-from-html]`).innerHTML);  
+
+            document.querySelector(`[data-js-to-css]`).textContent = document.querySelector(`style`).innerHTML;
+
+        } catch (error) {
+
+            console.log(error.name);
+
+            console.log(error.message); 
+
+        }
+
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/lymnee/lymnee/lymnee.reload.js"></script>
+</body>
+</html>
