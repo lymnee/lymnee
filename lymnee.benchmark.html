@@ -3,65 +3,88 @@
     https://gomakethings.com/how-performant-are-data-attributes-as-selectors/
     https://gist.github.com/cferdinandi/0d52bd0f4416bfe6a99108bd5c173e38
 -->
-<html lang="fr">
+<html style="font-family: monospace; font-size: x-large" lang="fr">
 <head>
+    <meta charset="utf-8"/>
 	<title>Test de performance des attributs de données</title>
 </head>
 <body>
 
+    <p data-js-result></p>
+
 	<ul id="app"></ul>
 
 	<script>
-		// Variables
-		var app = document.querySelector('#app');
-		var count = 10000;
-		var elem;
+        try {
 
-		// Create elements
-		for (var i = 0; i < count; i++) {
+            var app = document.querySelector(`#app`),
 
-			// Create element
-			elem = document.createElement('li');
-			elem.textContent = 'List Item ' + i;
+            count = 10000,
 
-			// Add ID, class, and data attribute
-			elem.id = 'list-item-' + i;
-			elem.className = 'list-item';
-			elem.setAttribute('data-item', i);
+            elem;
 
-			// Inject into the DOM
-			app.appendChild(elem);
+            for (var i = 0; i < count; i++) {
 
-		}
+                elem = document.createElement(`li`);
 
+                elem.textContent = `List Item ` + i;
 
-		/**
-		 * Start Performance Tests
-		 */
+                elem.id = `list-item-` + i;
 
-		var start, end;
+                elem.className = `list-item`;
+
+                elem.setAttribute(`data-item`, i);
+
+                app.appendChild(elem);
+
+            }
 
 
-		//
-		// By Class
-		//
+            /*
+                *
+                    Chronométrage des tests
+                *
+            */
 
-		start = performance.now();
-		var byClass = document.querySelectorAll('.list-item');
-		end = performance.now();
-		console.log('Par classes prend ' + (end - start) + 'milliseconde.s.');
+            var start, end;
 
 
-		//
-		// By Data Attribute
-		//
+            /*
+                *
+                    Par classe
+                *
+            */
 
-		start = performance.now();
-		var byClass = document.querySelectorAll('[data-item]');
-		end = performance.now();
-		console.log('Par attributs de données prend ' + (end - start) + 'milliseconde.s.');
+            start = performance.now();
 
+            var byClass = document.querySelectorAll(`.list-item`);
+
+            end = performance.now();
+
+            document.querySelector(`[data-js-result]`).innerHTML += `<p>L’insertion de 10&#x202f;000 classes demande ` + (end - start) + ` milliseconde.s.</p>`;
+
+
+            /*
+                *
+                    Par attribut de données
+                *
+            */
+
+            start = performance.now();
+
+            var byAttribute = document.querySelectorAll(`[data-item]`);
+
+            end = performance.now();
+
+            document.querySelector(`[data-js-result]`).innerHTML += `<p>L’insertion de 10&#x202f;000 attributs de données demande ` + (end - start) + ` milliseconde.s.</p>`;
+
+        } catch (error) {
+
+            console.log(error.name);
+
+            console.log(error.message); 
+
+        }
 	</script>
-
 </body>
 </html>
