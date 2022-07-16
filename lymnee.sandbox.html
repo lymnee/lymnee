@@ -21,6 +21,7 @@
         try {
         
             html = html
+            .replaceAll(`&amp;`, `&`)
             .replaceAll(`<`, `&#x3c;`)
             .replaceAll(`>`, `&#x3e;`)
             .trim();
