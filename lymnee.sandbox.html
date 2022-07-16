@@ -43,7 +43,7 @@
 
         try {
 
-            document.querySelector(`[data-js-to-html]`).textContent = convertHtml(document.querySelector(`[data-js-from-html]`).innerHTML);  
+            document.querySelector(`[data-js-to-html]`).textContent = convertHtml(document.querySelector(`[data-js-html]`).innerHTML);  
 
             document.querySelector(`[data-js-to-css]`).textContent = document.querySelector(`style`).innerHTML;
 
