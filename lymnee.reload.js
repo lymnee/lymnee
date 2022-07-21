@@ -50,6 +50,8 @@ try {
 
         entriesLymnee.forEach(entry => nodesYmAttributes.add(entry.split(`=`)[0].trim() + `=` + entry.split(`=`)[1].trim().replace(/"/g, ``)));
 
+        /*entriesLymnee.forEach(entry => nodesYmAttributes.add(entry.split(`=`)[0].trim() + `=` + entry.split(`=`)[1].trim().replaceAll(`"`, ``)));*/
+
     }
 
     var nodesYm = document.evaluate(`//@*[starts-with(name(), "` +  prefixDataAttributes.slice(0, -1) + `")]`, document, null, XPathResult.ANY_TYPE, null);
@@ -86,9 +88,28 @@ try {
 
     nodesYmAttributes.forEach((YmAttribute) => {
 
-        let YmName = YmAttribute.split(`=`)[0];
+        /*
+            *
+                
+                let YmName = YmAttribute.split(`=`)[0];
 
-        let YmValue = YmAttribute.split(`=`)[1];
+                let YmValue = YmAttribute.split(`=`)[1];
+            
+            *
+            
+       */
+        
+        /*
+            *
+                https://stackoverflow.com/questions/4607745/split-string-only-on-first-instance-of-specified-character
+            *
+       */
+        
+        let YmEntry = YmAttribute.split(`=`);
+
+        let [YmName, ...YmValue] = YmAttribute.split(`=`)
+
+        YmValue = YmValue.join(`=`);
 
         /*
             *
@@ -197,33 +218,33 @@ try {
 
 if (!!unsetLymnee) {
 
-try {
+    try {
 
-    var selectors = 0;
+        var selectors = 0;
 
-    cssSelectors.forEach((value) => {
+        cssSelectors.forEach((value) => {
 
-        styles += value;
+            styles += value;
 
-        if (++selectors < cssSelectors.size) {
+            if (++selectors < cssSelectors.size) {
 
-            styles += `,`;
+                styles += `,`;
 
-        }
+            }
 
-    });
+        });
 
-    styles = styles.replace(/,$/, ``);
-    
-    styles += `{all:unset}`;
+        styles = styles.replace(/,$/, ``);
+        
+        styles += `{all:unset}`;
 
-} catch (error) {
+    } catch (error) {
 
-    console.log(error.name);
+        console.log(error.name);
 
-    console.log(error.message); 
+        console.log(error.message); 
 
-}
+    }
 
 }
 
