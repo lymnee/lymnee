@@ -1,10 +1,14 @@
 # lymnee
 
-> Attributs de données avec… classe.
+> Attributs de données avec… style.
 
-> [Lymnee](https://github.com/lymnee/lymnee) recourt aux attributs de données pour styler un contenu Web : grâce à cette [méthode](https://github.com/lymnee/lymnee.github.io), mise en abyme, le code <abbr title="Cascading Styles Sheets">Css</abbr> devient facile à concevoir et à maintenir. [Lymnee](https://github.com/lymnee/lymnee) s’accompagne de deux outils pour générer ces styles et de deux fichiers en JavaScript : un fichier de visualisation, d’une part, et, d’autre part, un fichier de production qui écrit la feuille de style à la volée. 
+> Classies… data-attributes.
 
-> Css, Html, JavaScript, Node.js, Php, XPath
+> Présentation de [Lymnee](https://github.com/lymnee/lymnee)… Cette méthode recourt aux attributs de données pour styler un contenu Web : le code <abbr title="Cascading Styles Sheets">Css</abbr> devient facile à concevoir et à maintenir. [Lymnee](https://github.com/lymnee/lymnee) dispose d'un fichier en JavaScript, distant ou local, pour générer les styles avec cette méthode. 
+
+> Presentation of [Lymnee](https://github.com/lymnee/lymnee)… This method uses data attributes to style a Web content: the <abbr title="Cascading Styles Sheets">Css</abbr> code becomes easy to design and to maintain. [Lymnee](https://github.com/lymnee/lymnee) has a file in JavaScript, remote or local, to generate the styles with this method.
+
+> Css, Html, JavaScript, XPath
 
 ## License
 
