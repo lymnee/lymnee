@@ -56,7 +56,9 @@ try {
 
     var nodesYm = document.evaluate(`//@*[starts-with(name(), "` +  prefixDataAttributes.slice(0, -1) + `")]`, document, null, XPathResult.ANY_TYPE, null);
 
-    var tagsYm = document.evaluate(`//*[starts-with(name(@*), "` +  prefixDataAttributes.slice(0, -1) + `")]`, document, null, XPathResult.ANY_TYPE, null);
+    /*var tagsYm = document.evaluate(`//*[starts-with(name(@*), "` +  prefixDataAttributes.slice(0, -1) + `")]`, document, null, XPathResult.ANY_TYPE, null);*/
+
+    var tagsYm = document.evaluate(`//@*[starts-with(name(), "` +  prefixDataAttributes.slice(0, -1) + `")]/..`, document, null, XPathResult.ANY_TYPE, null);
 
     var thisNode = nodesYm.iterateNext();
 
