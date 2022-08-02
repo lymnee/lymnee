@@ -50,43 +50,25 @@ try {
 
         entriesLymnee.forEach(entry => nodesYmAttributes.add(entry.split(`=`)[0].trim() + `=` + entry.split(`=`)[1].trim().replace(/"/g, ``)));
 
-        /*entriesLymnee.forEach(entry => nodesYmAttributes.add(entry.split(`=`)[0].trim() + `=` + entry.split(`=`)[1].trim().replaceAll(`"`, ``)));*/
-
     }
 
-    var nodesYm = document.evaluate(`//@*[starts-with(name(), "` +  prefixDataAttributes.slice(0, -1) + `")]`, document, null, XPathResult.ANY_TYPE, null);
+    var nodesYm = document.querySelectorAll(`*`);
 
-    /*var tagsYm = document.evaluate(`//*[starts-with(name(@*), "` +  prefixDataAttributes.slice(0, -1) + `")]`, document, null, XPathResult.ANY_TYPE, null);*/
+    nodesYm.forEach((nodeYm) => {
 
-    var tagsYm = document.evaluate(`//@*[starts-with(name(), "` +  prefixDataAttributes.slice(0, -1) + `")]/..`, document, null, XPathResult.ANY_TYPE, null);
+        for (let attribute of nodeYm.getAttributeNames()) {
 
-    var thisNode = nodesYm.iterateNext();
+            if (attribute.startsWith(prefixDataAttributes.slice(0, -1))) {
 
-    while (thisNode) {
+                nodesYmAttributes.add(attribute.trim() + `=` + nodeYm.getAttribute(attribute).trim());
 
-        /*
-            *
-                'thisNode' is an object. That's why we prefer to use 'thisNode.nodeName' and 'thisNode.nodeValue'.
+                cssSelectors.add(nodeYm.tagName.toLowerCase());
 
-                nodesYmAttributes.add(thisNode);
-            *
-        */
+            }
 
-        nodesYmAttributes.add(thisNode.nodeName.trim() + `=` + thisNode.nodeValue.trim());
+        }
 
-        thisNode = nodesYm.iterateNext(); 
-
-    }
-
-    var thisNode = tagsYm.iterateNext();
-
-    while (thisNode) {
-
-        cssSelectors.add(thisNode.nodeName.toLowerCase());
-
-        thisNode = tagsYm.iterateNext(); 
-
-    }
+    });
 
     nodesYmAttributes.forEach((YmAttribute) => {
 
