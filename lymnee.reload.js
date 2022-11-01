@@ -12,6 +12,8 @@ if (typeof cssBeforeLymnee === `undefined`) {
 
 var prefixDataAttributes = prefixDataAttributes ?? `data-ym-`,
 
+boxSizingLymnee = boxSizingLymnee ?? false,
+
 entriesLymnee = entriesLymnee ?? false,
 
 printLymnee = printLymnee ?? false,
@@ -219,8 +221,15 @@ if (!!unsetLymnee) {
         });
 
         styles = styles.replace(/,$/, ``);
+
+        if (!!boxSizingLymnee) {
         
-        styles += `{all:unset}`;
+            styles += `{all:unset;box-sizing:border-box}`;
+
+        } else {
+
+            styles += `{all:unset}`;           
+        }
 
     } catch (error) {
 
