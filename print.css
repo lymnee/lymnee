@@ -1,0 +1,191 @@
+:root {
+    /*
+    	*
+    		Nous avons encodé l'image au format Svg conçue avec Inkscape grâce à https://yoksel.github.io/url-encoder/. Il s'agit d'une page au format A4 à l'arière-plan transparent avec deux traits grisés à 90 % d'une hauteur de 0,5 mm et d'une longueur de 15 mm.
+    		Le trait de pliage doit être à 297 mm / 3 = 99 mm.
+    		Premier trait : x à 0 mm et y à 88,750 mm.
+    		Deuxième trait : x à 195 mm et y à 88,750 mm.
+    	*
+    */
+
+    --foldlines: url("data:image/svg+xml,%3Csvg width='210mm' height='297mm' viewBox='0 0 210 297' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath style='fill:%231a1a1a;stroke-width:.0102574' d='M0 88.75h15v.353H0z'/%3E%3Cpath style='fill:%231a1a1a;stroke-width:.0122116' d='M195 88.75h15v.5h-15z'/%3E%3C/svg%3E");
+
+    /*
+    	*
+    		Astuce ! Quand Google Chrome peine à afficher l'aperçu avant impression, les styles ne sont pas définis correctement.
+    	*
+    */
+
+    --pageHeight: 297mm;
+    --pageWidth: 210mm;
+
+    --pagePrintHeight: calc(297mm - var(--pageMarginBottom) - var(--pageMarginTop));
+    --pagePrintWidth: calc(210mm - var(--pageMarginLeft) - var(--pageMarginRight));
+
+    /* 
+			*
+	    	Nous appliquons un ratio unique pour espacer les éléments et obtenir un rythme vertical et horizontal.
+			*
+    */
+
+    --scale: calc(297/210);
+
+    /*
+			*
+				Comme les pages sont unidimensionnelles, nous utilisons 'flex layout'. En revanche, pour l'en-tête de la page de garde, nous utilisons 'grid layout'.
+
+				Pour que 'flex layout' fonctionne comme attendu, les valeurs de '<header>', '<main>' et '<footer>' doivent être définies : '<header>' et '<footer>' auront une hauteur de 1rem, car ces conteneurs comportent une ligne, tandis que '<main>' reçoit la déclaration 'flex: 1' et s'adaptera quelle que soit la hauteur de '<header>'.
+
+				L'emplacement du destinataire, déterminé à partir des dimensions de l'enveloppe à fenêtre, conditionne le placement des autres éléments.
+
+				La grille a une goutière horizontale de 1rem.
+
+				La grille a une goutière verticale de 2rem : elle permet d'obtenir un espace correct entre le cadre du destinataire et la dernière ligne (objet ou références, lieu et date...).
+
+				Quand la grille n'a pas de valeur explicite de largeur ou de hauteur, les goutières l'aggrandissent. Dans le négative, les cellules se rétrécissent. Dans notre cas, la grille a une largeur explicite et une hauteur implicite donnée par la hauteur de l'enveloppe à fenêtre.
+		*
+	*/
+
+    --recipientTop: calc(var(--envelopeTopMargin) - var(--pageMarginBottom));
+
+    --recipientBefore: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
+
+   	--recipientLeft: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
+
+    --recipientHeight: calc(var(--envelopeWindowHeight));
+
+    /* Nous ajoutons la valeur de la goutière horizontale. */
+
+    --recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 1rem));
+}
+@page {
+  /*
+  	*
+  		Les propriétés personnalisées ne fonctionnent pas avec ce sélecteur. La valeur "auto" provoque un décalage vers le droite avec Microsoft Edge Version 116.0.1938.69 .
+  	*
+  */
+  margin: 0;
+  size: A4 portrait
+}
+body, div, html, em, header, footer, li, main, p, ol, ul {
+	all: unset
+}
+body, img, html, li, p, ol, ul {
+	display: block
+}
+body {
+	color: var(--textColor);
+	font-family: var(--fontFamily)
+}
+html {
+	font-size: var(--fontSize)
+}
+.page {
+	display: flex;
+	flex-direction: column;
+	height: var(--pagePrintHeight);
+	padding: var(--pageMarginTop) var(--pageMarginRight) var(--pageMarginBottom) var(--pageMarginLeft);
+	page-break-after: always;
+	width: var(--pagePrintWidth)
+}
+.front header {	
+	display: grid;
+	grid-template-columns: var(--recipientBefore) 1fr;
+	grid-template-rows: repeat(2, auto);
+	margin-block-end: calc(var(--scale) * 2rem);
+	row-gap: calc(var(--scale) * 2rem)
+}
+.recipient {
+	height: var(--recipientHeight);
+	margin-block-start: var(--recipientTop)
+}
+.signatory p {
+	margin-inline-start: var(--recipientMarginInLine)
+}
+.fold {
+	background-image: var(--foldlines);
+	background-size: cover
+}
+main {
+	flex: 1;
+	hyphens: auto;
+	line-height: var(--scale);
+	text-align: var(--textJustify)
+}
+.page.front header p {
+	line-height: var(--scale)
+}
+.page:not(.front) header p, footer p {
+	height: 1rem;
+	line-height: 1
+}
+footer p {
+	text-align: right
+}
+main p, main ul, main ol {
+	margin-block-start: calc(var(--scale) * 1rem)
+}
+main ul, main ol {
+	list-style-position: outside	
+}
+main ul {
+	list-style-type: disc
+}
+main ol {
+	list-style-type: decimal
+}
+main ul li {
+	margin-inline-start: 0
+}
+main ul > ul, main ol > ol {
+    margin-inline-start: 1rem
+}
+em:before {
+  content: open-quote
+}
+em:after {
+  content: close-quote
+}
+img {
+	height: auto;
+	margin-block: calc(var(--scale) * 1rem);
+	margin-inline: auto;
+	max-width: calc(var(--pagePrintWidth) - var(--pageMarginLeft) - var(--pageMarginRight));
+}
+
+@media screen {
+	.page {
+		background-color: rgb(250, 255, 255);
+		box-shadow: 0 3px 8px -3px rgba(0, 0, 0, 0.7);
+		margin: auto
+	}
+	.page:not(.front) header {
+		color: #ff0080
+	}
+	.page.front header {
+		color: #ff8000
+	}
+	footer {
+		color: #ff0000
+	}
+}
+
+dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.5)
+}
+dialog {
+		background-color: white;
+		border-radius: 0.75em;
+		box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
+		padding: calc(0.75em + 0.25em)
+}
+dialog button {
+	display: block;
+	background-color: #ff0080;
+	border: none;
+	border-radius: 0.25em;
+	color: white;
+	cursor: pointer;
+	margin-block-start: 0.75em;
+	padding: 0.25em 0.75em
+}
