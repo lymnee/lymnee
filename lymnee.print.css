@@ -46,17 +46,17 @@
 		*
 	*/
 
-    --recipientTop: calc(var(--envelopeTopMargin) - var(--pageMarginBottom));
+	--recipientTop: calc(var(--envelopeTopMargin) - var(--pageMarginBottom));
 
-    --recipientBefore: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
+	--recipientBefore: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
 
-   	--recipientLeft: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
+	--recipientLeft: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
 
-    --recipientHeight: calc(var(--envelopeWindowHeight));
+	--recipientHeight: calc(var(--envelopeWindowHeight));
 
-    /* Nous ajoutons la valeur de la goutière horizontale. */
+	/* Nous ajoutons la valeur de la goutière horizontale. */
 
-    --recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 1rem));
+	--recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 1rem));
 }
 @page {
   /*
@@ -139,6 +139,9 @@ main ul li {
 }
 main ul > ul, main ol > ol {
     margin-inline-start: 1rem
+}
+em {
+	quotes: "«\A0" "\A0»"
 }
 em:before {
   content: open-quote
