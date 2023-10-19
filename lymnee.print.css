@@ -141,7 +141,7 @@ main ul > ul, main ol > ol {
     margin-inline-start: 1rem
 }
 em {
-	quotes: "«\A0" "\A0»"
+  quotes: "«\A0" "\A0»"
 }
 em:before {
   content: open-quote
@@ -177,10 +177,10 @@ dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.5)
 }
 dialog {
-		background-color: white;
-		border-radius: 0.75em;
-		box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
-		padding: calc(0.75em + 0.25em)
+	background-color: white;
+	border-radius: 0.75em;
+	box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
+	padding: calc(0.75em + 0.25em)
 }
 dialog button {
 	display: block;
