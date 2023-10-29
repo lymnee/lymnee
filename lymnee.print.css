@@ -61,7 +61,7 @@
 @page {
   /*
   	*
-  		Les propriétés personnalisées ne fonctionnent pas avec ce sélecteur. La valeur "auto" provoque un décalage vers le droite avec Microsoft Edge Version 116.0.1938.69 .
+  		Les propriétés personnalisées ne fonctionnent pas avec ce sélecteur. La valeur "auto" provoque un décalage vers la droite avec Microsoft Edge Version 116.0.1938.69.
   	*
   */
   margin: 0;
