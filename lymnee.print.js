@@ -21,7 +21,7 @@ function createDialog(message) {
 
 	dialog = document.createElement('dialog');
 
-	let buttonHTML = '<button onclick="closeDialog()" title="' + glossary.get('errorClose')[language] + '">' + glossary.get('errorClose')[language] + '</button>';
+	let buttonHTML = '<button onclick="closeDialog()" title="' + glossary.get('closeError')[language] + '">' + glossary.get('closeError')[language] + '</button>';
 
 	dialog.insertAdjacentHTML('beforeend', message + buttonHTML);
 
@@ -77,6 +77,8 @@ const glossary = new Map([
 
 	['bottom', {en: 'bottom', fr: 'inférieure'}],
 
+	['characters', {en: 'characters', fr: 'caractères'}],
+
 	['color', {en: 'color', fr: 'couleur'}],
 
 	['breakPageKeyword', {en: 'break', fr: 'saut'}],
@@ -85,13 +87,7 @@ const glossary = new Map([
 
 	['dispatch', {en: 'dispatch', fr: 'expédition'}],
 
-	['elementId', {en: 'element', fr: 'élément'}],
-
 	['envelope', {en: 'envelope', fr: 'enveloppe'}],
-
-	['eventId', {en: 'event', fr: 'événement'}],
-
-	['faces', {en: 'faces', fr: 'caractères'}],
 
 	['family', {en: 'family', fr: 'famille'}],
 
@@ -113,11 +109,15 @@ const glossary = new Map([
 
 	['link', {en: 'link', fr: 'lien'}],
 
+	['man', {en: 'man', fr: 'homme'}],
+
 	['margins', {en: 'margins', fr: 'marges'}],
 
 	['numbering', {en: 'numbering', fr: 'numérotation'}],
 
 	['none', {en: 'none', fr: 'aucune'}],
+
+	['objectId', {en: 'object', fr: 'objet'}],
 
 	['of', {en: 'of', fr: 'sur'}],
 
@@ -145,11 +145,15 @@ const glossary = new Map([
 
 	['textId', {en: 'text', fr: 'texte'}],
 
+	['timestampId', {en: 'timestamp', fr: 'horodatage'}],
+
 	['treeId', {en: 'tree', fr: 'arbre'}],
 
 	['toId', {en: 'to', fr: 'à'}],
 
 	['top', {en: 'top', fr: 'supérieure'}],
+
+	['woman', {en: 'woman', fr: 'femme'}],
 
 	['window', {en: 'window', fr: 'fenêtre'}],	
 
@@ -161,21 +165,21 @@ const glossary = new Map([
 		*
 	*/
 
-	['errorClose', {en: 'Close', fr: 'Fermer'}],
+	['closeError', {en: 'Close', fr: 'Fermer'}],
 
-	['errorElement', {en: 'Where are the subject and/or references?', fr: 'Où sont l’objet ou les références ?'}],
+	['timestampError', {en: 'Where is the date?', fr: 'Où sont le lieu et la date ?'}],
 
-	['errorEvent', {en: 'Where are the place and the date?', fr: 'Où sont le lieu et la date ?'}],
+	['letterError', {en: 'Where is the letter?', fr: 'Où est la lettre ?'}],
 
-	['errorLetter', {en: 'Where is the letter?', fr: 'Où est la lettre ?'}],
+	['objectError', {en: 'Where are the object and/or references?', fr: 'Où est l’objet ou les références ?'}],
 
-	['errorRecipient', {en: 'Where is the recipient?', fr: 'Où est le destinataire ?'}],
+	['recipientError', {en: 'Where is the recipient?', fr: 'Où est le destinataire ?'}],
 
-	['errorSender', {en: 'Where is the sender?', fr: 'Où est l’expéditeur ?'}],
+	['senderError', {en: 'Where is the sender?', fr: 'Où est l’expéditeur ?'}],
 
-	['errorTree', {en: 'Where is the data tree?', fr: 'Où est l’arbre de données ?'}],
+	['treeError', {en: 'Where is the data tree?', fr: 'Où est l’arbre de données ?'}],
 
-	['errorText', {en: 'Where is the text?', fr: 'Où est le texte ?'}],
+	['textError', {en: 'Where is the text?', fr: 'Où est le texte ?'}],
 
 ]);
 
@@ -187,9 +191,9 @@ const glossary = new Map([
 
 if (!document.querySelector('#' + glossary.get('treeId')[language])) {
 
-		createDialog(glossary.get('errorTree')[language]);
+		createDialog(glossary.get('treeError')[language]);
 
-		throw new Error(glossary.get('errorTree')[language]);
+		throw new Error(glossary.get('treeError')[language]);
 
 }
 
@@ -205,114 +209,6 @@ let dataMap = new Map();
 	*
 */
 
-const recursiveMapBuilderWithComments = (node, map) => {
-
-		/*
-			*
-				Nous parcourons tous les enfants.
-			*
-		*/
-
-	for (const child of node.children) {
-
-		/*
-			*
-				Nous stockons le nom de la balise.
-			*
-		*/
-
-		const tagName = child.tagName.toLowerCase();
-
-		if (child.children.length === 0) {
-
-			/*
-				*
-					Si l'enfant n'a pas d'enfants, nous ajoutons son contenu textuel à la carte avec le nom de la balise comme clef.
-				*
-			*/
-
-			map.set(tagName, child.textContent);
-
-		} else {
-
-			/*
-				*
-					Si l'enfant a des enfants, nous créons une nouvelle carte pour eux.
-				*
-			*/
-
-			const childMap = new Map();
-
-			/*
-				*
-					Nous appelons récursivement la fonction sur l'enfant et sa nouvelle carte.
-				*
-			*/
-
-			recursiveMapBuilder(child, childMap);
-
-			/*
-				*
-					Nous récupérerons la valeur actuelle de la carte avec le nom de la balise comme clef.
-				*
-			*/
-
-			let currentValue = map.get(tagName);
-
-			/*
-				*
-					Si une valeur existe déjà, nous ajoutons la nouvelle carte à la valeur existante.
-				*
-			*/
-
-			if (currentValue) {
-
-				/*
-					*
-						Si la valeur actuelle n'est pas un tableau, nous la convertissons en tableau.
-					*
-				*/
-
-				if (!Array.isArray(currentValue)) {
-
-					currentValue = [currentValue];
-
-				}
-
-				/*
-					*
-						Nous ajoutons la nouvelle carte au tableau.
-					*
-				*/
-
-				currentValue.push(childMap);
-
-			} else {
-
-				/*
-					*
-						Si aucune valeur n'existe encore, nous définissons la nouvelle carte comme valeur.
-					*
-				*/
-
-				currentValue = childMap;
-
-			}
-
-			/*
-				*
-					Nous mettons à jour la valeur dans la carte avec le nom de la balise comme clef.
-				*
-			*/
-
-			map.set(tagName, currentValue);
-
-		}
-
-	}
-
-};
-
 const recursiveMapBuilder = (node, map) => {
 
 	for (const child of node.children) {
@@ -325,7 +221,7 @@ const recursiveMapBuilder = (node, map) => {
 
 		} else {
 
-				const childMap = new Map();
+			const childMap = new Map();
 
 			recursiveMapBuilder(child, childMap);
 
@@ -365,103 +261,133 @@ recursiveMapBuilder(dataTemplateContent, dataMap);
 	*
 */
 
-const escapeFontName = (fontName) => fontName.includes(' ') ? `"${fontName}"` : fontName;
+const escapeFontName = (fontName) => fontName ? (fontName.includes(' ') ? `"${fontName}"` : fontName) : undefined;
 
-const getDataOrDefault = (element, defaultValue) => element ?? defaultValue;
-
-const fontLink = getDataOrDefault(dataMap.get(glossary.get('faces')[language]).get(glossary.get('font')[language]).get(glossary.get('link')[language]), undefined);
 
 const cssProperties = new Map();
 
-let fold,
-
-fullPagination,
-
-imageSignature;
 
 /*
 	*
-		*
+		Enveloppe
 	*
 */
 
-const envelopeLeftMargin = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('margins')[language]).get(glossary.get('left')[language]), '110mm');
+let envelopeLeftMargin = '110mm';
+
+let envelopeTopMargin = '58mm';
+
+let envelopeWindowHeight = '45mm';
+
+const envelopeMargins = dataMap
+
+  .get(glossary.get('envelope')[language])
+
+  ?.get(glossary.get('margins')[language]);
+
+if (envelopeMargins) {
+
+	envelopeLeftMargin = envelopeMargins.get(glossary.get('left')[language]) ?? envelopeLeftMargin;
+
+	envelopeTopMargin = envelopeMargins.get(glossary.get('top')[language]) ?? envelopeTopMargin;
+
+	envelopeWindowHeight = envelopeMargins.get(glossary.get('window')[language]) ?? envelopeWindowHeight;
+
+}
 
 cssProperties.set('envelopeLeftMargin', envelopeLeftMargin);
 
-const envelopeTopMargin = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('margins')[language]).get(glossary.get('top')[language]), '58mm');
-
-cssProperties.set('envelopeTopMargin', envelopeTopMargin);
-
-const envelopeWindowHeight = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('window')[language]), '45mm');
+cssProperties.set('envelopeTopMargin', envelopeTopMargin)
 
 cssProperties.set('envelopeWindowHeight', envelopeWindowHeight);
 
-const fontFamily = getDataOrDefault(escapeFontName(dataMap.get(glossary.get('faces')[language]).get(glossary.get('font')[language]).get(glossary.get('family')[language])) + ',' + 'serif', 'serif');
+/*
+	*
+		Marges
+	*
+*/
 
-cssProperties.set('fontFamily', fontFamily);
+let pageMarginBottom = '20mm';
 
-const fontSize = getDataOrDefault(dataMap.get(glossary.get('faces')[language]).get(glossary.get('size')[language]), '11pt');
+let pageMarginLeft = '20mm';
 
-cssProperties.set('fontSize', fontSize);
+let pageMarginRight = '20mm';
 
-const textColor = getDataOrDefault(dataMap.get(glossary.get('faces')[language]).get(glossary.get('color')[language]), '#000');
+let pageMarginTop = '20mm';
 
-cssProperties.set('textColor', textColor);
+const pageMargins = dataMap
 
-if (dataMap.get(glossary.get('faces')[language]).get(glossary.get('justify')[language]) === glossary.get('yes')[language])  {
+  .get(glossary.get('page')[language])
 
-	cssProperties.set('textJustify', 'justify');
+  ?.get(glossary.get('margins')[language]);
 
-} else {
+if (pageMargins) {
 
-	cssProperties.set('textJustify', 'start');
+	pageMarginBottom = pageMargins.get(glossary.get('left')[language]) ?? pageMarginBottom;
+
+	pageMarginLeft = pageMargins.get(glossary.get('top')[language]) ?? pageMarginLeft;
+
+	pageMarginRight = pageMargins.get(glossary.get('window')[language]) ?? pageMarginRight;
+
+	pageMarginTop = pageMargins.get(glossary.get('window')[language]) ?? pageMarginTop;
 
 }
-
-const pageMarginBottom = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('bottom')[language]), '20mm');
 
 cssProperties.set('pageMarginBottom', pageMarginBottom);
 
-const pageMarginLeft = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('left')[language]), '20mm');
-
 cssProperties.set('pageMarginLeft', pageMarginLeft);
-
-const pageMarginRight = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('right')[language]), '20mm');
 
 cssProperties.set('pageMarginRight', pageMarginRight);
 
-const pageMarginTop = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('top')[language]), '20mm');
-
 cssProperties.set('pageMarginTop', pageMarginTop);
 
-if (dataMap.get(glossary.get('page')[language]).get(glossary.get('fold')[language]) === glossary.get('yes')[language])  {
+/*
+	*
+		Caractères
+	*
+*/
 
-	fold = true;
 
-} else {
+const characters = dataMap.get(glossary.get('characters')[language]);
 
-	fold = false;
+const fontFamily = escapeFontName(characters?.get(glossary.get('font')[language])?.get(glossary.get('family')[language])) ?? 'serif';
 
-}
+cssProperties.set('fontFamily', fontFamily);
 
-switch(dataMap.get(glossary.get('page')[language]).get(glossary.get('numbering')[language])) {
+const fontLink = characters?.get(glossary.get('font')[language])?.get(glossary.get('link')[language]) ?? '';
 
-	case (glossary.get('page x of y')[language]) :
+const fontSize = characters?.get(glossary.get('size')[language]) ?? '11pt';
 
-		fullPagination = true;
+cssProperties.set('fontSize', fontSize);
 
-	break;
+const textColor = characters?.get(glossary.get('color')[language]) ?? '#000';
 
-	case (glossary.get('page x')[language]) :
+cssProperties.set('textColor', textColor);
 
-		fullPagination = false;
+const justification = dataMap
 
-	break;
+	.get(glossary.get('characters')[language])
 
-}
+	?.get(glossary.get('justify')[language]);
 
-imageSignature = dataMap.get(glossary.get('signatory')[language]).get(glossary.get('signature')[language]);
+cssProperties.set('textJustify', justification === glossary.get('yes')[language] ? 'justify' : 'start');
+
+/*
+	*
+		Compléments
+	*
+*/
+
+const fold = dataMap.get(glossary.get('page')[language])?.get(glossary.get('fold')[language]) === glossary.get('yes')[language] ?? false;
+
+const pagination = dataMap
+
+	.get(glossary.get('page')[language])
+
+	?.get(glossary.get('numbering')[language]) === glossary.get('page x of y')[language] ?? false;
+
+
+const signature = dataMap.get(glossary.get('signatory')[language]).get(glossary.get('signature')[language]);
 
 /*
 	*
@@ -471,209 +397,236 @@ imageSignature = dataMap.get(glossary.get('signatory')[language]).get(glossary.g
 
 if (!document.querySelector('#' + glossary.get('letterId')[language])) {
 
-		createDialog(glossary.get('errorLetter')[language]);
+	createDialog(glossary.get('letterError')[language]);
 
-		throw new Error(glossary.get('errorLetter')[language]);
+	throw new Error(glossary.get('letterError')[language]);
 
 }
 
-const modelTemplate = document.querySelector('#' + glossary.get('letterId')[language]);
+let modelTemplate = document.querySelector('#' + glossary.get('letterId')[language]);
 
 const gender = glossary.get('gender')[language];
 
 const signataire = glossary.get('signatory')[language];
 
-let contentElement,
+const elements = {
 
-contentEvent,
+  fromContent: modelTemplate.content.querySelector('#' + glossary.get('fromId')[language]),
 
-contentFrom,
+  objectContent: modelTemplate.content.querySelector('#' + glossary.get('objectId')[language]),
 
-contentTo,
+  textContent: modelTemplate.content.querySelector('#' + glossary.get('textId')[language]),
 
-contentText;
+  timestampContent: modelTemplate.content.querySelector('#' + glossary.get('timestampId')[language]),
 
-if (modelTemplate.content.querySelector('#' + glossary.get('elementId')[language])) {
+  toContent: modelTemplate.content.querySelector('#' + glossary.get('toId')[language]),
 
-	contentElement = modelTemplate.content.querySelector('#' + glossary.get('elementId')[language]);
+};
 
-} else {
+const { fromContent, objectContent, textContent, timestampContent, toContent } = elements;
 
-	createDialog(glossary.get('errorElement')[language]);
+const requiredFields = [
 
-	throw new Error(glossary.get('errorElement')[language]);
+	{ content: fromContent, errorKey: 'senderError' },
 
-}
+	{ content: textContent, errorKey: 'textError' },
 
-if (modelTemplate.content.querySelector('#' + glossary.get('eventId')[language])) {
+	{ content: timestampContent, errorKey: 'timestampError' },
 
-	contentEvent = modelTemplate.content.querySelector('#' + glossary.get('eventId')[language]);
+	{ content: toContent, errorKey: 'recipientError' }
 
-} else {
+];
 
-	createDialog(glossary.get('errorEvent')[language]);
+requiredFields.forEach(field => {
 
-	throw new Error(glossary.get('errorEvent')[language]);
+	if (!field.content) {
 
-}
+		const errorReport = glossary.get(field.errorKey)[language];
 
-if (modelTemplate.content.querySelector('#' + glossary.get('fromId')[language])) {
+		createDialog(errorReport);
 
-	contentFrom = modelTemplate.content.querySelector('#' + glossary.get('fromId')[language]);
-
-} else {
-
-		createDialog(glossary.get('errorSender')[language]);
-
-		throw new Error(glossary.get('errorSender')[language]);
-
-}
-
-if (modelTemplate.content.querySelector('#' + glossary.get('toId')[language])) {
-
-	contentTo = modelTemplate.content.querySelector('#' + glossary.get('toId')[language]);
-
-} else {
-
-		createDialog(glossary.get('errorRecipient')[language]);
-
-		throw new Error(glossary.get('errorRecipient')[language]);
-
-}
-
-if (modelTemplate.content.querySelector('#' + glossary.get('textId')[language])) {
-
-	contentText = modelTemplate.content.querySelector('#' + glossary.get('textId')[language]);
-
-} else {
-
-	createDialog(glossary.get('errorText')[language]);
-
-	throw new Error(glossary.get('errorText')[language]);
-
-}
-
-let contentSignatory = modelTemplate.content.querySelector('#' + glossary.get('signatureId')[language]);
-
-const elementsLetter = new Map();
-
-const eventsLetter = new Map();
-
-const recipientsLetter = new Map();
-
-const sendersLetter = new Map();
-
-const textsLetter = new Map();
-
-const signatoriesLetter = new Map();
-
-var recipientCount = 0;
-
-for (let recipient of dataMap.get(glossary.get('recipient')[language])) {
-
-	let contentToCopy = contentTo.cloneNode(true);
-
-	for (let [key, value] of recipient) {
-
-		let regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-
-		contentToCopy.innerHTML = contentToCopy.innerHTML.replace(regex, value);
+		throw new Error(errorReport);
 
 	}
 
-	recipientsLetter.set(recipientCount, contentToCopy.innerHTML);
+});
 
-	let textToCopy = contentText.cloneNode(true);
+const signatoryContent = modelTemplate.content.querySelector('#' + glossary.get('signatureId')[language]);
 
-	for (let [key, value] of recipient) {
+function _escapeSpecialChars(key) {
+	
+	return key.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 
-		let regex = new RegExp(`\\$\\{${key}\\}`, 'g');
+}
 
-		textToCopy.innerHTML = textToCopy.innerHTML.replace(regex, value);
 
-		if (recipient.get(gender)) {
+function _treeWalk(search, callback) {
+	
+	const treeWalking = new Map();
+		
+	let count = 1;
 
-			let recipientGender = recipient.get(gender);
+	switch (search) {
 
-			textToCopy.innerHTML = textToCopy.innerHTML.replace(/<span>([^<]+)<\/span><span>([^<]+)<\/span>/g, (match, p1, p2) => {
+		case 'recipient' :
 
-				return recipientGender === 'H' ? p1 : p2;
+			if (dataMap.get(glossary.get('recipient')[language]).size) {
+				
+				/*
+					*
+						Une seule carte est présente, il n'y a qu'un destinataire.
+					*
+				*/
+				
+				let walkCopy = callback.cloneNode(true);
 
-    	});
+				for (let [key, value] of dataMap.get(glossary.get('recipient')[language])) {
+					
+					let safeKey = _escapeSpecialChars(key);
+			
+					let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
+
+					walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
+
+				}
+
+				/*
+					*
+						Nous ajoutons manuellement une clef pour que le contenu s'inscrive dans la valeur.
+					*
+				*/
+				
+				treeWalking.set(count, walkCopy.innerHTML);
+				
+			} else {
+			
+				for (let recipient of dataMap.get(glossary.get('recipient')[language])) {
+					
+					let walkCopy = callback.cloneNode(true);
+
+					for (let [key, value] of recipient) {
+						
+						let safeKey = _escapeSpecialChars(key);
+				
+						let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
+
+						walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
+
+					}
+
+					treeWalking.set(count++, walkCopy.innerHTML);
+					
+				}
+				
+			}
+
+		break;
+
+		default :
+			
+			let walkCopy = callback.cloneNode(true);
+
+			for (let [key, value] of dataMap.get(glossary.get(search)[language])) {
+				
+				let safeKey = _escapeSpecialChars(key);
+		
+				let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
+
+				walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
+
+			}
+			
+			treeWalking.set(count, walkCopy.innerHTML);
+		
+		}
+	
+	return treeWalking;
+	
+}
+
+function _letterWalk() {
+
+	const letterWalking = new Map();
+		
+	let count = 1;
+
+	if (dataMap.get(glossary.get('recipient')[language]).size) {
+
+			let walkCopy = textContent.cloneNode(true);
+
+			for (let [key, value] of dataMap.get(glossary.get('recipient')[language])) {
+
+				let safeKey = _escapeSpecialChars(key);
+			
+				let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
+
+				walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
+
+				if (dataMap.get(glossary.get('recipient')[language]).get(gender)) {
+
+					let recipientGender = dataMap.get(glossary.get('recipient')[language]).get(gender);
+
+					walkCopy.innerHTML = walkCopy.innerHTML.replace(/<span>([^<]+)<\/span><span>([^<]+)<\/span>/g, (match, p1, p2) => {
+
+						return recipientGender === glossary.get('woman')[language] ? p2 : p1;
+
+					});
+
+				}
+
+			}
+
+			letterWalking.set(count, walkCopy.innerHTML);
+
+	} else {
+
+		for (let recipient of dataMap.get(glossary.get('recipient')[language])) {
+
+			let walkCopy = textContent.cloneNode(true);
+
+			for (let [key, value] of recipient) {
+
+				let safeKey = _escapeSpecialChars(key);
+			
+				let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
+
+				walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
+
+				if (recipient.get(gender)) {
+
+					let recipientGender = recipient.get(gender);
+
+					walkCopy.innerHTML = walkCopy.innerHTML.replace(/<span>([^<]+)<\/span><span>([^<]+)<\/span>/g, (match, p1, p2) => {
+
+						return recipientGender === glossary.get('woman')[language] ? p2 : p1;
+
+					});
+
+				}
+			
+			}
+
+			letterWalking.set(count++, walkCopy.innerHTML);
 
 		}
 
 	}
 
-	textsLetter.set(recipientCount, textToCopy.innerHTML);
-
-	/*
-		*
-			Cloner 'contentElement', 'contentEvent', 'contentFrom' et 'contentSignatory' est évidemment inutile (il n'y a objet ou références, lieu et date, expéditeur et signataire sont uniques !), mais la compréhension ultérieure du code sera simplifiée.
-		*
-	*/
-
-	let contentElementCopy = contentElement.cloneNode(true);
-
-	for (let [key, value] of dataMap.get(glossary.get('dispatch')[language])) {
-
-		let regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-
-		contentElement.innerHTML = contentElement.innerHTML.replace(regex, value);
-
-	}
-
-	elementsLetter.set(recipientCount, contentElement.innerHTML);
-
-	let contentEventCopy = contentEvent.cloneNode(true);
-
-	for (let [key, value] of dataMap.get(glossary.get('dispatch')[language])) {
-
-		let regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-
-		contentEvent.innerHTML = contentEvent.innerHTML.replace(regex, value);
-
-	}
-
-	eventsLetter.set(recipientCount, contentEvent.innerHTML);
-
-	let contentFromCopy = contentFrom.cloneNode(true);
-
-	for (let [key, value] of dataMap.get(glossary.get('sender')[language])) {
-
-		let regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-
-		contentFromCopy.innerHTML = contentFromCopy.innerHTML.replace(regex, value);
-
-	}
-
-	sendersLetter.set(recipientCount, contentFromCopy.innerHTML);
-
-	if (contentSignatory) {
-
-		let signatoryToCopy = contentSignatory.cloneNode(true);
-
-		for (let [key, value] of dataMap.get(glossary.get('signatory')[language])) {
-
-			let regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-
-			signatoryToCopy.innerHTML = signatoryToCopy.innerHTML.replace(regex, value);
-
-		}
-
-		if (imageSignature) {
-
-			signatoryToCopy.innerHTML += `<img src=${imageSignature} />`;
-
-		}
-
-		signatoriesLetter.set(recipientCount, signatoryToCopy.innerHTML);
-
-	}
-
-	recipientCount++;
+	return letterWalking;
 
 }
+
+let letterReceipting = _treeWalk('recipient', toContent);
+
+let letterSending = _treeWalk('sender', fromContent);
+
+let letterStamping = _treeWalk('dispatch', timestampContent);
+
+let letterObjecting = _treeWalk('dispatch', objectContent);
+
+let letterSigning = _treeWalk('signatory', signatoryContent);
+
+let letterEditing = _letterWalk();
 
 /*
 	*
@@ -689,11 +642,11 @@ const letters = new Map();
 
 let lettersCount = 0;
 
-for (let [key] of recipientsLetter) {
+for (let [key] of letterEditing) {
 
 	/*
 		*
-			Nous pourrions utiliser 'for (let [key, value] of recipientsLetter)', mais nous préférons que l'appel des variables soit identique afin que la compréhension ultérieure du code soit simplifiée.
+			Nous pourrions utiliser 'for (let [key, value] of recipientLetters)', mais nous préférons que l'appel des variables soit identique afin que la compréhension ultérieure du code soit simplifiée.
 		*
 	*/
 
@@ -723,16 +676,16 @@ for (let [key] of recipientsLetter) {
 
 	header.innerHTML = `
 	<div>
-		${sendersLetter.get(key)}
+		${letterSending.get(1)}
 	</div>
 	<div class="recipient">
-		${recipientsLetter.get(key)}
+		${letterReceipting.get(key)}
 	</div>
 	<div>
-		${elementsLetter.get(key)}
+		${letterObjecting.get(1)}
 	</div>
 	<div>
-		${eventsLetter.get(key)}
+		${letterStamping.get(1)}
 	</div>
 	`;
 
@@ -750,15 +703,7 @@ for (let [key] of recipientsLetter) {
 
 	let article = document.createElement('article');
 
-	if (signatoriesLetter.size !== 0) {
-
-		article.innerHTML = textsLetter.get(key) + '<div class="signatory">' + signatoriesLetter.get(key) + '</div>';
-
-	} else {
-
-		article.innerHTML = textsLetter.get(key);
-
-	}
+	article.innerHTML = letterEditing.get(key);
 
 	let elements = Array.from(article.children);
 
@@ -782,9 +727,9 @@ for (let [key] of recipientsLetter) {
 
 			header = document.createElement('header');
 
-			if (fullPagination !== undefined) {
+			if (pagination !== undefined) {
 
-				if (fullPagination) {
+				if (pagination) {
 
 					/*
 						*
