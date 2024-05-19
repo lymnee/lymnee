@@ -261,133 +261,107 @@ recursiveMapBuilder(dataTemplateContent, dataMap);
 	*
 */
 
-const escapeFontName = (fontName) => fontName ? (fontName.includes(' ') ? `"${fontName}"` : fontName) : undefined;
+const escapeFontName = (fontName) => fontName.includes(' ') ? `"${fontName}"` : fontName;
 
+const getDataOrDefault = (element, defaultValue) => element ?? defaultValue;
+
+const fontLink = getDataOrDefault(dataMap.get(glossary.get('characters')[language]).get(glossary.get('font')[language]).get(glossary.get('link')[language]), undefined);
 
 const cssProperties = new Map();
 
-
 /*
-	*
-		Enveloppe
+	* 
+		A améliorer
 	*
 */
 
-let envelopeLeftMargin = '110mm';
+let fold,
 
-let envelopeTopMargin = '58mm';
+pagination,
 
-let envelopeWindowHeight = '45mm';
+/*mail,*/
 
-const envelopeMargins = dataMap
+signature;
 
-  .get(glossary.get('envelope')[language])
+/*
+	*
+		*
+	*
+*/
 
-  ?.get(glossary.get('margins')[language]);
-
-if (envelopeMargins) {
-
-	envelopeLeftMargin = envelopeMargins.get(glossary.get('left')[language]) ?? envelopeLeftMargin;
-
-	envelopeTopMargin = envelopeMargins.get(glossary.get('top')[language]) ?? envelopeTopMargin;
-
-	envelopeWindowHeight = envelopeMargins.get(glossary.get('window')[language]) ?? envelopeWindowHeight;
-
-}
+const envelopeLeftMargin = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('margins')[language]).get(glossary.get('left')[language]), '110mm');
 
 cssProperties.set('envelopeLeftMargin', envelopeLeftMargin);
 
-cssProperties.set('envelopeTopMargin', envelopeTopMargin)
+const envelopeTopMargin = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('margins')[language]).get(glossary.get('top')[language]), '58mm');
+
+cssProperties.set('envelopeTopMargin', envelopeTopMargin);
+
+const envelopeWindowHeight = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('window')[language]), '45mm');
 
 cssProperties.set('envelopeWindowHeight', envelopeWindowHeight);
 
-/*
-	*
-		Marges
-	*
-*/
-
-let pageMarginBottom = '20mm';
-
-let pageMarginLeft = '20mm';
-
-let pageMarginRight = '20mm';
-
-let pageMarginTop = '20mm';
-
-const pageMargins = dataMap
-
-  .get(glossary.get('page')[language])
-
-  ?.get(glossary.get('margins')[language]);
-
-if (pageMargins) {
-
-	pageMarginBottom = pageMargins.get(glossary.get('left')[language]) ?? pageMarginBottom;
-
-	pageMarginLeft = pageMargins.get(glossary.get('top')[language]) ?? pageMarginLeft;
-
-	pageMarginRight = pageMargins.get(glossary.get('window')[language]) ?? pageMarginRight;
-
-	pageMarginTop = pageMargins.get(glossary.get('window')[language]) ?? pageMarginTop;
-
-}
-
-cssProperties.set('pageMarginBottom', pageMarginBottom);
-
-cssProperties.set('pageMarginLeft', pageMarginLeft);
-
-cssProperties.set('pageMarginRight', pageMarginRight);
-
-cssProperties.set('pageMarginTop', pageMarginTop);
-
-/*
-	*
-		Caractères
-	*
-*/
-
-
-const characters = dataMap.get(glossary.get('characters')[language]);
-
-const fontFamily = escapeFontName(characters?.get(glossary.get('font')[language])?.get(glossary.get('family')[language])) ?? 'serif';
+const fontFamily = getDataOrDefault(escapeFontName(dataMap.get(glossary.get('characters')[language]).get(glossary.get('font')[language]).get(glossary.get('family')[language])) + ',' + 'serif', 'serif');
 
 cssProperties.set('fontFamily', fontFamily);
 
-const fontLink = characters?.get(glossary.get('font')[language])?.get(glossary.get('link')[language]) ?? '';
-
-const fontSize = characters?.get(glossary.get('size')[language]) ?? '11pt';
+const fontSize = getDataOrDefault(dataMap.get(glossary.get('characters')[language]).get(glossary.get('size')[language]), '11pt');
 
 cssProperties.set('fontSize', fontSize);
 
-const textColor = characters?.get(glossary.get('color')[language]) ?? '#000';
+const textColor = getDataOrDefault(dataMap.get(glossary.get('characters')[language]).get(glossary.get('color')[language]), '#000');
 
 cssProperties.set('textColor', textColor);
 
-const justification = dataMap
+if (dataMap.get(glossary.get('characters')[language]).get(glossary.get('justify')[language]) === glossary.get('yes')[language])  {
 
-	.get(glossary.get('characters')[language])
+	cssProperties.set('textJustify', 'justify');
 
-	?.get(glossary.get('justify')[language]);
+} else {
 
-cssProperties.set('textJustify', justification === glossary.get('yes')[language] ? 'justify' : 'start');
+	cssProperties.set('textJustify', 'start');
 
-/*
-	*
-		Compléments
-	*
-*/
+}
 
-const fold = dataMap.get(glossary.get('page')[language])?.get(glossary.get('fold')[language]) === glossary.get('yes')[language] ?? false;
+const pageMarginBottom = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('bottom')[language]), '20mm');
 
-const pagination = dataMap
+cssProperties.set('pageMarginBottom', pageMarginBottom);
 
-	.get(glossary.get('page')[language])
+const pageMarginLeft = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('left')[language]), '20mm');
 
-	?.get(glossary.get('numbering')[language]) === glossary.get('page x of y')[language] ?? false;
+cssProperties.set('pageMarginLeft', pageMarginLeft);
 
+const pageMarginRight = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('right')[language]), '20mm');
 
-const signature = dataMap.get(glossary.get('signatory')[language]).get(glossary.get('signature')[language]);
+cssProperties.set('pageMarginRight', pageMarginRight);
+
+const pageMarginTop = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('top')[language]), '20mm');
+
+cssProperties.set('pageMarginTop', pageMarginTop);
+
+if (dataMap.get(glossary.get('page')[language]).get(glossary.get('fold')[language]) === glossary.get('yes')[language]) {
+
+	fold = true;
+
+}
+
+switch(dataMap.get(glossary.get('page')[language]).get(glossary.get('numbering')[language])) {
+
+	case (glossary.get('page x of y')[language]) :
+
+		pagination = true;
+
+	break;
+
+	case (glossary.get('page x')[language]) :
+
+		pagination = false;
+
+	break;
+
+}
+
+signature = dataMap.get(glossary.get('signatory')[language]).get(glossary.get('signature')[language]);
 
 /*
 	*
@@ -409,47 +383,76 @@ const gender = glossary.get('gender')[language];
 
 const signataire = glossary.get('signatory')[language];
 
-const elements = {
+const fromId = glossary.get('fromId')[language];
 
-  fromContent: modelTemplate.content.querySelector('#' + glossary.get('fromId')[language]),
+const fromContent = modelTemplate.content.querySelector('#' + fromId);
 
-  objectContent: modelTemplate.content.querySelector('#' + glossary.get('objectId')[language]),
+const objectId = glossary.get('objectId')[language];
 
-  textContent: modelTemplate.content.querySelector('#' + glossary.get('textId')[language]),
+const objectContent = modelTemplate.content.querySelector('#' + objectId);
 
-  timestampContent: modelTemplate.content.querySelector('#' + glossary.get('timestampId')[language]),
+const textId = glossary.get('textId')[language];
 
-  toContent: modelTemplate.content.querySelector('#' + glossary.get('toId')[language]),
+const textContent = modelTemplate.content.querySelector('#' + textId);
 
-};
+const timestampId = glossary.get('timestampId')[language];
 
-const { fromContent, objectContent, textContent, timestampContent, toContent } = elements;
+const timestampContent = modelTemplate.content.querySelector('#' + timestampId);
 
-const requiredFields = [
+const toId = glossary.get('toId')[language];
 
-	{ content: fromContent, errorKey: 'senderError' },
+const toContent = modelTemplate.content.querySelector('#' + toId);
 
-	{ content: textContent, errorKey: 'textError' },
+if (!fromContent) {
 
-	{ content: timestampContent, errorKey: 'timestampError' },
+	const errorReport = glossary.get('senderError')[language];
 
-	{ content: toContent, errorKey: 'recipientError' }
+	createDialog(errorReport);
 
-];
+	throw new Error(errorReport);
 
-requiredFields.forEach(field => {
+}
 
-	if (!field.content) {
+if (!objectContent) {
 
-		const errorReport = glossary.get(field.errorKey)[language];
+	const errorReport = glossary.get('objectError')[language];
 
-		createDialog(errorReport);
+	createDialog(errorReport);
 
-		throw new Error(errorReport);
+	throw new Error(errorReport);
 
-	}
+}
 
-});
+if (!textContent) {
+
+	const errorReport = glossary.get('textError')[language];
+
+	createDialog(errorReport);
+
+	throw new Error(errorReport);
+
+}
+
+if (!timestampContent) {
+
+	const errorReport = glossary.get('timestampError')[language];
+
+	createDialog(errorReport);
+
+	throw new Error(errorReport);
+
+}
+
+
+if (!toContent) {
+
+	const errorReport = glossary.get('recipientError')[language];
+
+	createDialog(errorReport);
+
+	throw new Error(errorReport);
+
+}
 
 const signatoryContent = modelTemplate.content.querySelector('#' + glossary.get('signatureId')[language]);
 
@@ -458,7 +461,6 @@ function _escapeSpecialChars(key) {
 	return key.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 
 }
-
 
 function _treeWalk(search, callback) {
 	
@@ -678,7 +680,7 @@ for (let [key] of letterEditing) {
 	<div>
 		${letterSending.get(1)}
 	</div>
-	<div class="recipient">
+	<div>
 		${letterReceipting.get(key)}
 	</div>
 	<div>
@@ -693,7 +695,11 @@ for (let [key] of letterEditing) {
 
 	footer = document.createElement('footer');
 
-	footer.insertAdjacentHTML('beforeend', `<p>…/…</p>`);
+	if (breaksCount >= 1) {
+
+		footer.insertAdjacentHTML('beforeend', `<p>…/…</p>`);
+
+	}
 
 	page.appendChild(header);
 
@@ -745,7 +751,7 @@ for (let [key] of letterEditing) {
 
 				}
 
-			}
+			} 
 
 			main = document.createElement('main');
 
@@ -765,9 +771,9 @@ for (let [key] of letterEditing) {
 
 		} else {
 
-				let clonedChild = child.cloneNode(true);
+			let clonedChild = child.cloneNode(true);
             
-				main.appendChild(clonedChild);
+			main.appendChild(clonedChild);
 
 		}
 
