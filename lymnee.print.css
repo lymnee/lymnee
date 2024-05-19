@@ -24,7 +24,7 @@
 
     /* 
 			*
-	    	Nous appliquons un ratio unique pour espacer les éléments et obtenir un rythme vertical et horizontal.
+	    	Nous appliquons un ratio unique pour espacer les objets et obtenir un rythme vertical et horizontal.
 			*
     */
 
@@ -36,7 +36,7 @@
 
 				Pour que 'flex layout' fonctionne comme attendu, les valeurs de '<header>', '<main>' et '<footer>' doivent être définies : '<header>' et '<footer>' auront une hauteur de 1rem, car ces conteneurs comportent une ligne, tandis que '<main>' reçoit la déclaration 'flex: 1' et s'adaptera quelle que soit la hauteur de '<header>'.
 
-				L'emplacement du destinataire, déterminé à partir des dimensions de l'enveloppe à fenêtre, conditionne le placement des autres éléments.
+				L'emplacement du destinataire, déterminé à partir des dimensions de l'enveloppe à fenêtre, conditionne le placement des autres objets.
 
 				La grille a une goutière horizontale de 1rem.
 
@@ -46,22 +46,22 @@
 		*
 	*/
 
-	--recipientTop: calc(var(--envelopeTopMargin) - var(--pageMarginBottom));
+    --recipientTop: calc(var(--envelopeTopMargin) - var(--pageMarginBottom));
 
-	--recipientBefore: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
+    --recipientBefore: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
 
-	--recipientLeft: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
+   	--recipientLeft: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
 
-	--recipientHeight: calc(var(--envelopeWindowHeight));
+    --recipientHeight: calc(var(--envelopeWindowHeight));
 
-	/* Nous ajoutons la valeur de la goutière horizontale. */
+    /* Nous ajoutons la valeur de la goutière horizontale. */
 
-	--recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 1rem));
+    --recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 1rem));
 }
 @page {
   /*
   	*
-  		Les propriétés personnalisées ne fonctionnent pas avec ce sélecteur. La valeur "auto" provoque un décalage vers la droite avec Microsoft Edge Version 116.0.1938.69.
+  		Les propriétés personnalisées ne fonctionnent pas avec ce sélecteur. La valeur "auto" provoque un décalage vers le droite avec Microsoft Edge Version 116.0.1938.69 .
   	*
   */
   margin: 0;
@@ -95,9 +95,15 @@ html {
 	margin-block-end: calc(var(--scale) * 2rem);
 	row-gap: calc(var(--scale) * 2rem)
 }
-.recipient {
+.front header div:nth-of-type(2) {
 	height: var(--recipientHeight);
 	margin-block-start: var(--recipientTop)
+}
+.front header div:nth-of-type(3) p:nth-of-type(n+2) {
+		margin-block-start: 1rem
+}
+.front header div:nth-of-type(4) {
+		align-self: center
 }
 .signatory p {
 	margin-inline-start: var(--recipientMarginInLine)
@@ -140,9 +146,6 @@ main ul li {
 main ul > ul, main ol > ol {
     margin-inline-start: 1rem
 }
-em {
-  quotes: "«\A0" "\A0»"
-}
 em:before {
   content: open-quote
 }
@@ -177,10 +180,10 @@ dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.5)
 }
 dialog {
-	background-color: white;
-	border-radius: 0.75em;
-	box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
-	padding: calc(0.75em + 0.25em)
+		background-color: white;
+		border-radius: 0.75em;
+		box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.2);
+		padding: calc(0.75em + 0.25em)
 }
 dialog button {
 	display: block;
