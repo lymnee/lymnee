@@ -269,17 +269,9 @@ const fontLink = getDataOrDefault(dataMap.get(glossary.get('characters')[languag
 
 const cssProperties = new Map();
 
-/*
-	* 
-		A améliorer
-	*
-*/
-
 let fold,
 
 pagination,
-
-/*mail,*/
 
 signature;
 
@@ -289,31 +281,31 @@ signature;
 	*
 */
 
-const envelopeLeftMargin = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('margins')[language]).get(glossary.get('left')[language]), '110mm');
+const envelopeLeftMargin = getDataOrDefault(dataMap.get(glossary?.get('envelope')[language])?.get(glossary.get('margins')[language])?.get(glossary.get('left')[language]), '110mm');
 
 cssProperties.set('envelopeLeftMargin', envelopeLeftMargin);
 
-const envelopeTopMargin = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('margins')[language]).get(glossary.get('top')[language]), '58mm');
+const envelopeTopMargin = getDataOrDefault(dataMap.get(glossary?.get('envelope')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('top')[language]), '58mm');
 
 cssProperties.set('envelopeTopMargin', envelopeTopMargin);
 
-const envelopeWindowHeight = getDataOrDefault(dataMap.get(glossary.get('envelope')[language]).get(glossary.get('window')[language]), '45mm');
+const envelopeWindowHeight = getDataOrDefault(dataMap.get(glossary?.get('envelope')[language])?.get(glossary?.get('window')[language]), '45mm');
 
 cssProperties.set('envelopeWindowHeight', envelopeWindowHeight);
 
-const fontFamily = getDataOrDefault(escapeFontName(dataMap.get(glossary.get('characters')[language]).get(glossary.get('font')[language]).get(glossary.get('family')[language])) + ',' + 'serif', 'serif');
+const fontFamily = getDataOrDefault(escapeFontName(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('font')[language])?.get(glossary?.get('family')[language])) + ',' + 'serif', 'serif');
 
 cssProperties.set('fontFamily', fontFamily);
 
-const fontSize = getDataOrDefault(dataMap.get(glossary.get('characters')[language]).get(glossary.get('size')[language]), '11pt');
+const fontSize = getDataOrDefault(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('size')[language]), '11pt');
 
 cssProperties.set('fontSize', fontSize);
 
-const textColor = getDataOrDefault(dataMap.get(glossary.get('characters')[language]).get(glossary.get('color')[language]), '#000');
+const textColor = getDataOrDefault(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('color')[language]), '#000');
 
 cssProperties.set('textColor', textColor);
 
-if (dataMap.get(glossary.get('characters')[language]).get(glossary.get('justify')[language]) === glossary.get('yes')[language])  {
+if (dataMap.get(glossary?.get('characters')[language])?.get(glossary.get('justify')[language]) === glossary.get('yes')[language])  {
 
 	cssProperties.set('textJustify', 'justify');
 
@@ -323,29 +315,29 @@ if (dataMap.get(glossary.get('characters')[language]).get(glossary.get('justify'
 
 }
 
-const pageMarginBottom = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('bottom')[language]), '20mm');
+const pageMarginBottom = getDataOrDefault(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('bottom')[language]), '20mm');
 
 cssProperties.set('pageMarginBottom', pageMarginBottom);
 
-const pageMarginLeft = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('left')[language]), '20mm');
+const pageMarginLeft = getDataOrDefault(dataMap.get(glossary.get('page')[language])?.get(glossary.get('margins')[language])?.get(glossary?.get('left')[language]), '20mm');
 
 cssProperties.set('pageMarginLeft', pageMarginLeft);
 
-const pageMarginRight = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('right')[language]), '20mm');
+const pageMarginRight = getDataOrDefault(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('right')[language]), '20mm');
 
 cssProperties.set('pageMarginRight', pageMarginRight);
 
-const pageMarginTop = getDataOrDefault(dataMap.get(glossary.get('page')[language]).get(glossary.get('margins')[language]).get(glossary.get('top')[language]), '20mm');
+const pageMarginTop = getDataOrDefault(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('top')[language]), '20mm');
 
 cssProperties.set('pageMarginTop', pageMarginTop);
 
-if (dataMap.get(glossary.get('page')[language]).get(glossary.get('fold')[language]) === glossary.get('yes')[language]) {
+if (dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('fold')[language]) === glossary.get('yes')[language]) {
 
 	fold = true;
 
 }
 
-switch(dataMap.get(glossary.get('page')[language]).get(glossary.get('numbering')[language])) {
+switch(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('numbering')[language])) {
 
 	case (glossary.get('page x of y')[language]) :
 
@@ -361,7 +353,7 @@ switch(dataMap.get(glossary.get('page')[language]).get(glossary.get('numbering')
 
 }
 
-signature = dataMap.get(glossary.get('signatory')[language]).get(glossary.get('signature')[language]);
+signature = dataMap.get(glossary?.get('signatory')[language])?.get(glossary?.get('signature')[language]);
 
 /*
 	*
