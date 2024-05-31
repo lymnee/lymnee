@@ -265,7 +265,8 @@ const escapeFontName = (fontName) => fontName.includes(' ') ? `"${fontName}"` : 
 
 const getDataOrDefault = (element, defaultValue) => element ?? defaultValue;
 
-const fontLink = getDataOrDefault(dataMap.get(glossary.get('characters')[language]).get(glossary.get('font')[language]).get(glossary.get('link')[language]), undefined);
+const fontLink = getDataOrDefault(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('font')[language])?.get(glossary?.get('link')[language]), undefined);
+
 
 const cssProperties = new Map();
 
@@ -353,7 +354,7 @@ switch(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('numberin
 
 }
 
-signature = dataMap.get(glossary?.get('signatory')[language])?.get(glossary?.get('signature')[language]);
+/*signature = dataMap.get(glossary?.get('signatory')[language])?.get(glossary?.get('signature')[language]);*/
 
 /*
 	*
@@ -541,67 +542,60 @@ function _treeWalk(search, callback) {
 function _letterWalk() {
 
 	const letterWalking = new Map();
-		
+
 	let count = 1;
 
-	if (dataMap.get(glossary.get('recipient')[language]).size) {
+	const recipients = dataMap.get(glossary.get('recipient')[language]);
 
-			let walkCopy = textContent.cloneNode(true);
+	const processRecipient = (recipient) => {
 
-			for (let [key, value] of dataMap.get(glossary.get('recipient')[language])) {
+		let walkCopy = textContent.cloneNode(true);
 
-				let safeKey = _escapeSpecialChars(key);
-			
-				let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
+		for (let [key, value] of recipient) {
 
-				walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
+			let safeKey = _escapeSpecialChars(key);
 
-				if (dataMap.get(glossary.get('recipient')[language]).get(gender)) {
+			let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
 
-					let recipientGender = dataMap.get(glossary.get('recipient')[language]).get(gender);
+			walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
 
-					walkCopy.innerHTML = walkCopy.innerHTML.replace(/<span>([^<]+)<\/span><span>([^<]+)<\/span>/g, (match, p1, p2) => {
+		}
 
-						return recipientGender === glossary.get('woman')[language] ? p2 : p1;
+		let recipientGender = recipient.get(gender);
 
-					});
+		if (recipientGender) {
 
-				}
+			walkCopy.innerHTML = walkCopy.innerHTML.replace(/<span>([^<]+)<\/span><span>([^<]+)<\/span>/g, (match, p1, p2) => {
 
-			}
+				return recipientGender === glossary.get('woman')[language] ? p2 : p1;
+			});
 
-			letterWalking.set(count, walkCopy.innerHTML);
+		}
+
+		if (signatoryContent) {
+
+			let letterSigning = _treeWalk('signatory', signatoryContent);
+
+			walkCopy.innerHTML += `<div class="signatory">${letterSigning.get(1)}</div>`;
+
+		}
+
+		return walkCopy.innerHTML;
+
+	};
+
+	if (recipients.size) {
+
+		const singleRecipient = recipients;
+
+		letterWalking.set(count, processRecipient(singleRecipient));
 
 	} else {
+	
+		for (let recipient of recipients) {
 
-		for (let recipient of dataMap.get(glossary.get('recipient')[language])) {
-
-			let walkCopy = textContent.cloneNode(true);
-
-			for (let [key, value] of recipient) {
-
-				let safeKey = _escapeSpecialChars(key);
-			
-				let regex = new RegExp(`\\$\\{${safeKey}\\}`, 'g');
-
-				walkCopy.innerHTML = walkCopy.innerHTML.replace(regex, value);
-
-				if (recipient.get(gender)) {
-
-					let recipientGender = recipient.get(gender);
-
-					walkCopy.innerHTML = walkCopy.innerHTML.replace(/<span>([^<]+)<\/span><span>([^<]+)<\/span>/g, (match, p1, p2) => {
-
-						return recipientGender === glossary.get('woman')[language] ? p2 : p1;
-
-					});
-
-				}
-			
-			}
-
-			letterWalking.set(count++, walkCopy.innerHTML);
-
+			letterWalking.set(count++, processRecipient(recipient));
+		
 		}
 
 	}
@@ -610,6 +604,7 @@ function _letterWalk() {
 
 }
 
+
 let letterReceipting = _treeWalk('recipient', toContent);
 
 let letterSending = _treeWalk('sender', fromContent);
@@ -617,8 +612,6 @@ let letterSending = _treeWalk('sender', fromContent);
 let letterStamping = _treeWalk('dispatch', timestampContent);
 
 let letterObjecting = _treeWalk('dispatch', objectContent);
-
-let letterSigning = _treeWalk('signatory', signatoryContent);
 
 let letterEditing = _letterWalk();
 
