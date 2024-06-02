@@ -263,98 +263,189 @@ recursiveMapBuilder(dataTemplateContent, dataMap);
 
 const escapeFontName = (fontName) => fontName.includes(' ') ? `"${fontName}"` : fontName;
 
-const getDataOrDefault = (element, defaultValue) => element ?? defaultValue;
+let envelopeLeftMargin = '110mm',
 
-const fontLink = getDataOrDefault(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('font')[language])?.get(glossary?.get('link')[language]), undefined);
+envelopeTopMargin= '58mm',
 
+envelopeWindowHeight = '45mm',
 
-const cssProperties = new Map();
+fold,
 
-let fold,
+fontFamily = 'serif',
+
+fontLink,
+
+fontSize = '11pt',
+
+textJustify = 'start',
+
+pageMarginBottom = '20mm',
+
+pageMarginLeft = '20mm',
+
+pageMarginRight = '20mm',
+
+pageMarginTop = '20mm',
 
 pagination,
 
 signature;
 
-/*
-	*
-		*
-	*
-*/
+const envelope = dataMap.get(glossary.get('envelope')[language]);
 
-const envelopeLeftMargin = getDataOrDefault(dataMap.get(glossary?.get('envelope')[language])?.get(glossary.get('margins')[language])?.get(glossary.get('left')[language]), '110mm');
+if (envelope) {
+
+	const margins = envelope.get(glossary.get('margins')[language]);
+
+	if (margins) {
+
+		if (margins.get(glossary.get('left')[language])) {
+
+			envelopeLeftMargin = margins.get(glossary.get('left')[language]);
+
+		}
+
+		if (margins.get(glossary.get('top')[language])) {
+
+			envelopeTopMargin = margins.get(glossary.get('top')[language]);
+
+		}
+
+	}
+
+	if (envelope.get(glossary.get('window')[language])) {
+
+		envelopeWindowHeight = envelope.get(glossary.get('window')[language]);
+
+	}
+
+}
+
+const characters = dataMap.get(glossary.get('characters')[language]);
+
+if (characters) {
+
+	textColor = characters.get(glossary.get('color')[language]);
+
+	if (characters.get(glossary.get('font')[language])) {
+
+		const police = characters.get(glossary.get('font')[language]);
+
+		fontFamily = escapeFontName(police.get(glossary.get('family')[language]));
+
+		fontFamily += ', ';
+
+		fontFamily += 'serif';
+
+		fontLink = police.get('lien');
+
+	}
+
+	fontSize = characters.get(glossary.get('size')[language]);
+
+	if (characters.get(glossary.get('justify')[language]) === glossary.get('yes')[language]) {
+
+		textJustify = 'justify';
+
+	}
+
+}
+
+const page = dataMap.get(glossary.get('page')[language]);
+
+if (page) {
+
+	const margins = page.get(glossary.get('margins')[language]);
+
+	if (margins) {
+
+		if (margins.get(glossary.get('bottom')[language])) {
+
+			pageMarginBottom = margins.get(glossary.get('bottom')[language]);
+
+		}
+
+		if (margins.get(glossary.get('left')[language])) {
+
+			pageMarginLeft = margins.get(glossary.get('left')[language]);
+
+		}
+
+		if (margins.get(glossary.get('right')[language])) {
+
+			pageMarginRight = margins.get(glossary.get('right')[language]);
+
+		}
+
+		if (margins.get(glossary.get('top')[language])) {
+
+			pageMarginRight = margins.get(glossary.get('top')[language]);
+
+		}
+
+	}
+
+	if (page.get(glossary.get('fold')[language]) === glossary.get('yes')[language]) {
+
+		fold = true;
+
+	}
+
+	if (page.get(glossary.get('numbering')[language])) {
+
+		const numbering = page.get(glossary.get('numbering')[language]);
+
+		switch (numbering) {
+
+			case (glossary.get('page x of y')[language]) :
+
+				pagination = true;
+
+			break;
+
+			case (glossary.get('page x')[language]) :
+
+				pagination = false;
+
+			break;
+
+		}
+
+	}
+
+}
+
+const signatory = dataMap.get(glossary.get('signatory')[language]);
+
+if (signatory) {
+
+	signature = signatory.get(glossary.get('signature')[language]);
+
+}
+
+const cssProperties = new Map();
 
 cssProperties.set('envelopeLeftMargin', envelopeLeftMargin);
 
-const envelopeTopMargin = getDataOrDefault(dataMap.get(glossary?.get('envelope')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('top')[language]), '58mm');
-
 cssProperties.set('envelopeTopMargin', envelopeTopMargin);
-
-const envelopeWindowHeight = getDataOrDefault(dataMap.get(glossary?.get('envelope')[language])?.get(glossary?.get('window')[language]), '45mm');
 
 cssProperties.set('envelopeWindowHeight', envelopeWindowHeight);
 
-const fontFamily = getDataOrDefault(escapeFontName(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('font')[language])?.get(glossary?.get('family')[language])) + ',' + 'serif', 'serif');
-
 cssProperties.set('fontFamily', fontFamily);
-
-const fontSize = getDataOrDefault(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('size')[language]), '11pt');
 
 cssProperties.set('fontSize', fontSize);
 
-const textColor = getDataOrDefault(dataMap.get(glossary?.get('characters')[language])?.get(glossary?.get('color')[language]), '#000');
-
-cssProperties.set('textColor', textColor);
-
-if (dataMap.get(glossary?.get('characters')[language])?.get(glossary.get('justify')[language]) === glossary.get('yes')[language])  {
-
-	cssProperties.set('textJustify', 'justify');
-
-} else {
-
-	cssProperties.set('textJustify', 'start');
-
-}
-
-const pageMarginBottom = getDataOrDefault(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('bottom')[language]), '20mm');
-
 cssProperties.set('pageMarginBottom', pageMarginBottom);
-
-const pageMarginLeft = getDataOrDefault(dataMap.get(glossary.get('page')[language])?.get(glossary.get('margins')[language])?.get(glossary?.get('left')[language]), '20mm');
 
 cssProperties.set('pageMarginLeft', pageMarginLeft);
 
-const pageMarginRight = getDataOrDefault(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('right')[language]), '20mm');
-
 cssProperties.set('pageMarginRight', pageMarginRight);
-
-const pageMarginTop = getDataOrDefault(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('margins')[language])?.get(glossary?.get('top')[language]), '20mm');
 
 cssProperties.set('pageMarginTop', pageMarginTop);
 
-if (dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('fold')[language]) === glossary.get('yes')[language]) {
+cssProperties.set('textColor', textColor);
 
-	fold = true;
-
-}
-
-switch(dataMap.get(glossary?.get('page')[language])?.get(glossary?.get('numbering')[language])) {
-
-	case (glossary.get('page x of y')[language]) :
-
-		pagination = true;
-
-	break;
-
-	case (glossary.get('page x')[language]) :
-
-		pagination = false;
-
-	break;
-
-}
-
-/*signature = dataMap.get(glossary?.get('signatory')[language])?.get(glossary?.get('signature')[language]);*/
+cssProperties.set('textJustify', textJustify);
 
 /*
 	*
@@ -576,7 +667,14 @@ function _letterWalk() {
 
 			let letterSigning = _treeWalk('signatory', signatoryContent);
 
-			walkCopy.innerHTML += `<div class="signatory">${letterSigning.get(1)}</div>`;
+			if (signature) {
+
+				walkCopy.innerHTML += `<div class="signatory">${letterSigning.get(1)}<img src="${signature}" /></div>`;
+
+			} else {
+
+				walkCopy.innerHTML += `<div class="signatory">${letterSigning.get(1)}</div>`;
+			}
 
 		}
 
