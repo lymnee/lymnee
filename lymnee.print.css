@@ -59,9 +59,9 @@
 
     --recipientHeight: calc(var(--envelopeWindowHeight));
 
-    /* Nous ajoutons la valeur de la goutière horizontale. */
+    /* Nous ajoutons la valeur de la goutière horizontale de ".front header". */
 
-    --recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 1rem));
+	--recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 2rem));
 }
 @page {
   /*
@@ -72,7 +72,16 @@
   margin: 0;
   size: A4 portrait
 }
-body, div, html, em, header, footer, li, main, p, ol, ul {
+:lang(en) {
+	quotes: '“' '”'
+}
+:lang(de) {
+	quotes: '„' '“'
+}
+:lang(fr) {
+	quotes: '«\202F' '\202F»'
+}
+body, div, html, em, header, footer, li, main, p, ol, strong, ul {
 	all: unset
 }
 body, img, html, li, p, ol, ul {
@@ -80,10 +89,14 @@ body, img, html, li, p, ol, ul {
 }
 body {
 	color: var(--textColor);
-	font-family: var(--fontFamily)
+	font-family: var(--fontFamily);
+	font-weight: 400
 }
 html {
 	font-size: var(--fontSize)
+}
+strong {
+	font-weight: 700
 }
 .page {
 	display: flex;
@@ -98,17 +111,18 @@ html {
 	grid-template-columns: var(--recipientBefore) 1fr;
 	grid-template-rows: repeat(2, auto);
 	margin-block-end: calc(var(--scale) * 2rem);
-	row-gap: calc(var(--scale) * 2rem)
+	/*row-gap: calc(var(--scale) * 2rem)*/
+	gap: calc(var(--scale) * 2rem)
 }
 .front header div:nth-of-type(2) {
 	height: var(--recipientHeight);
 	margin-block-start: var(--recipientTop)
 }
 .front header div:nth-of-type(3) p:nth-of-type(n+2) {
-		margin-block-start: 1rem
+	margin-block-start: 1rem
 }
 .front header div:nth-of-type(4) {
-		align-self: center
+	align-self: center
 }
 .signatory p {
 	margin-inline-start: var(--recipientMarginInLine)
