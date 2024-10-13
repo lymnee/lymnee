@@ -1,41 +1,41 @@
 :root {
-    /*
-    	*
-    Nous avons encodé l'image au format Svg conçue avec Inkscape grâce à https://yoksel.github.io/url-encoder/. Il s'agissait d'une page au format A4 à l'arière-plan transparent avec deux traits grisés à 90 % d'une hauteur de 0,5 mm et d'une longueur de 15 mm. Il s'agit d'une page au format A4 à l'arière-plan transparent avec un trait grisé à 90 % d'une hauteur de 0,5 mm et d'une longueur de 15 mm.
-    Le trait de pliage doit être à 297 mm / 3 = 99 mm.
-    Version à deux traits...
-	    Premier trait : x à 0 mm et y à 88,750 mm.
+	/*
+	*
+		Nous avons encodé l'image au format Svg conçue avec Inkscape grâce à https://yoksel.github.io/url-encoder/. Il s'agissait d'une page au format A4 à l'arière-plan transparent avec deux traits grisés à 90 % d'une hauteur de 0,5 mm et d'une longueur de 15 mm. Il s'agit d'une page au format A4 à l'arière-plan transparent avec un trait grisé à 90 % d'une hauteur de 0,5 mm et d'une longueur de 15 mm.
+		Le trait de pliage doit être à 297 mm / 3 = 99 mm.
+		Version à deux traits...
+		Premier trait : x à 0 mm et y à 88,750 mm.
 			Deuxième trait : x à 195 mm et y à 88,750 mm.
 		Version à un trait...
 			Premier trait : x à 0 mm et y à 88,750 mm.
-    	*
-    */
+		*
+	*/
 
-    /*--foldlines: url("data:image/svg+xml,%3Csvg width='210mm' height='297mm' viewBox='0 0 210 297' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath style='fill:%231a1a1a;stroke-width:.0102574' d='M0 88.75h15v.353H0z'/%3E%3Cpath style='fill:%231a1a1a;stroke-width:.0122116' d='M195 88.75h15v.5h-15z'/%3E%3C/svg%3E");*/
-   
-    --foldlines: url("data:image/svg+xml,%3Csvg width='210mm' height='297mm' viewBox='0 0 210 297' version='1.1' id='svg1' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg'%3E%3Cdefs id='defs1' /%3E%3Cg id='layer1'%3E%3Crect style='fill:%231a1a1a;stroke-width:9.99998' id='rect1' width='15' height='0.49999997' x='0' y='99' /%3E%3C/g%3E%3C/svg%3E");
+	/*--foldlines: url("data:image/svg+xml,%3Csvg width='210mm' height='297mm' viewBox='0 0 210 297' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath style='fill:%231a1a1a;stroke-width:.0102574' d='M0 88.75h15v.353H0z'/%3E%3Cpath style='fill:%231a1a1a;stroke-width:.0122116' d='M195 88.75h15v.5h-15z'/%3E%3C/svg%3E");*/
 
-    /*
-    	*
-    		Astuce ! Quand Google Chrome peine à afficher l'aperçu avant impression, les styles ne sont pas définis correctement.
-    	*
-    */
+	--foldlines: url("data:image/svg+xml,%3Csvg width='210mm' height='297mm' viewBox='0 0 210 297' version='1.1' id='svg1' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg'%3E%3Cdefs id='defs1' /%3E%3Cg id='layer1'%3E%3Crect style='fill:%231a1a1a;stroke-width:9.99998' id='rect1' width='15' height='0.49999997' x='0' y='99' /%3E%3C/g%3E%3C/svg%3E");
 
-    --pageHeight: 297mm;
-    --pageWidth: 210mm;
+	/*
+		*
+			Astuce ! Quand Google Chrome peine à afficher l'aperçu avant impression, les styles ne sont pas définis correctement.
+		*
+	*/
 
-    --pagePrintHeight: calc(297mm - var(--pageMarginBottom) - var(--pageMarginTop));
-    --pagePrintWidth: calc(210mm - var(--pageMarginLeft) - var(--pageMarginRight));
+	--pageHeight: 297mm;
+	--pageWidth: 210mm;
+
+	--pagePrintHeight: calc(297mm - var(--pageMarginBottom) - var(--pageMarginTop));
+	--pagePrintWidth: calc(210mm - var(--pageMarginLeft) - var(--pageMarginRight));
 
     /* 
 			*
 	    	Nous appliquons un ratio unique pour espacer les objets et obtenir un rythme vertical et horizontal.
 			*
-    */
+	*/
 
-    --scale: calc(297/210);
+	--scale: calc(297/210);
 
-    /*
+	/*
 			*
 				Comme les pages sont unidimensionnelles, nous utilisons 'flex layout'. En revanche, pour l'en-tête de la page de garde, nous utilisons 'grid layout'.
 
@@ -51,15 +51,15 @@
 		*
 	*/
 
-    --recipientTop: calc(var(--envelopeTopMargin) - var(--pageMarginBottom));
+	--recipientTop: calc(var(--envelopeTopMargin) - var(--pageMarginBottom));
 
-    --recipientBefore: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
+	--recipientBefore: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
 
    	--recipientLeft: calc(var(--envelopeLeftMargin) - var(--pageMarginLeft));
 
-    --recipientHeight: calc(var(--envelopeWindowHeight));
+	--recipientHeight: calc(var(--envelopeWindowHeight));
 
-    /* Nous ajoutons la valeur de la goutière horizontale de ".front header". */
+	/* Nous ajoutons la valeur de la goutière horizontale de ".front header". */
 
 	--recipientMarginInLine: calc(var(--recipientBefore) + calc(var(--scale) * 2rem));
 }
