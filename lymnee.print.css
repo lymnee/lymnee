@@ -93,7 +93,8 @@ body {
 	font-weight: 400
 }
 html {
-	font-size: var(--fontSize)
+	font-size: var(--fontSize);
+	hyphens: auto
 }
 strong {
 	font-weight: 700
@@ -133,7 +134,6 @@ strong {
 }
 main {
 	flex: 1;
-	hyphens: auto;
 	line-height: var(--scale);
 	text-align: var(--textJustify)
 }
