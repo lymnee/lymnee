@@ -113,7 +113,8 @@ strong {
 	grid-template-rows: repeat(2, auto);
 	margin-block-end: calc(var(--scale) * 2rem);
 	/*row-gap: calc(var(--scale) * 2rem)*/
-	gap: calc(var(--scale) * 2rem)
+	gap: calc(var(--scale) * 2rem);
+	hyphens: none
 }
 .front header div:nth-of-type(2) {
 	height: var(--recipientHeight);
